@@ -1,11 +1,31 @@
-import { Text, View } from "react-native";
+import { Text, View, Pressable } from "react-native";
+import { useCameraPermissions } from "expo-camera";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Link, Stack } from "expo-router";
 
-export default function Index() {
+export default function Scanner() {
+  const [permission, requestPermission] = useCameraPermissions();
+
+  const isPermissionGranted = Boolean(permission?.granted);
+
   return (
-    <View
-      className="flex-1 justify-center items-center"
-    >
-      <Text className="text-pink-500 text-2xl">Centennial Residence Hall: Better QR Scanner</Text>
-    </View>
+    <SafeAreaView className="flex-1 justify-around items-center py-20">
+      <Stack.Screen options={{ title: "Home", headerShown: true }} />
+      <Text className="text-white text-6xl">
+        QR Code Scanner
+      </Text>
+      <View className="gap-5">
+        <Pressable onPress={requestPermission}>
+          <Text className="text-blue-500 text-2xl">Request Permissions</Text>
+        </Pressable>
+        <Link href={"/scanner"} asChild>
+          <Pressable disabled={!isPermissionGranted}>
+            <Text className={`text-blue-500 text-2xl text-center ${!isPermissionGranted ? "opacity-50" : ""}`}>
+              Scan Code
+            </Text>
+          </Pressable>
+        </Link>
+      </View>
+    </SafeAreaView>
   );
 }
