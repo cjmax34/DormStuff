@@ -16,6 +16,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="scanner"
+        options={{
+          title: "QR Scanner",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="qrcode" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="settings"
         options={{
           title: "Settings",

@@ -1,12 +1,12 @@
 import { CameraView } from "expo-camera";
 import { Stack } from "expo-router";
-import { View, Text, StyleSheet, Linking, AppState, Platform } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Overlay } from "./Overlay";
-import { useEffect, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
+import { useEffect, useRef } from "react";
+import { AppState, Linking, Platform, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Overlay } from "../../components/Overlay";
 
-export default function Home() {
+export default function Scanner() {
   const qrLock = useRef(false);
   const appState = useRef(AppState.currentState);
 
@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={StyleSheet.absoluteFillObject}>
-      <Stack.Screen options={{ title: "Test", headerShown: false }} />
+      <Stack.Screen options={{ title: "QR Scanner", headerShown: false }} />
       {Platform.OS === "android" ? <StatusBar hidden /> : null}
       <CameraView 
         style={StyleSheet.absoluteFillObject} 
