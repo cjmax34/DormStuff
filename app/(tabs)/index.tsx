@@ -10,18 +10,18 @@ export default function Scanner() {
 
   return (
     <SafeAreaView className="flex-1 justify-around items-center py-20">
-      <Stack.Screen options={{ title: "Lol", headerShown: true }} />
-      <Text className="text-white text-4xl">
+      <Stack.Screen options={{ title: "Home", headerShown: false }} />
+      <Text className="text-white text-4xl font-pbold">
         QR Code Scanner
       </Text>
       <View className="gap-5">
         <Pressable onPress={requestPermission}>
-          <Text className="text-blue-500 text-2xl">Request Permissions</Text>
+          <Text className="text-blue-500 text-2xl font-sregular">Request Permissions</Text>
         </Pressable>
         <Link href={"../scanner"} asChild>
           <Pressable disabled={!isPermissionGranted}>
-            <Text className={`text-blue-500 text-2xl text-center ${!isPermissionGranted ? "opacity-50" : ""}`}>
-              Scan Code
+            <Text className={`text-blue-500 text-2xl text-center font-sregular ${!isPermissionGranted ? "opacity-50" : ""}`}>
+              Scan QR Code
             </Text>
           </Pressable>
         </Link>

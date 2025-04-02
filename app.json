@@ -41,6 +41,23 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/SpaceMono-Regular.ttf",
+            "./assets/fonts/Poppins-Black.ttf",
+            "./assets/fonts/Poppins-Bold.ttf",
+            "./assets/fonts/Poppins-ExtraBold.ttf",
+            "./assets/fonts/Poppins-ExtraLight.ttf",
+            "./assets/fonts/Poppins-Light.ttf",
+            "./assets/fonts/Poppins-Medium.ttf",
+            "./assets/fonts/Poppins-Regular.ttf",
+            "./assets/fonts/Poppins-SemiBold.ttf",
+            "./assets/fonts/Poppins-Thin.ttf"
+          ]
+        }
       ]
     ],
     "experiments": {
