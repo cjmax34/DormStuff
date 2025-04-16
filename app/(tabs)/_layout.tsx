@@ -4,14 +4,18 @@ import { Tabs } from "expo-router";
 export default function TabLayout() {
   return (
     <Tabs
-      screenOptions={{ tabBarActiveTintColor: "green", tabBarLabelStyle: {fontFamily: "Geist-SemiBold"} }}
+      screenOptions={{
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "#808080",
+        tabBarLabelStyle: { fontFamily: "Geist-SemiBold" },
+      }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
+            <FontAwesome size={26} name="home" color={color} />
           ),
         }}
       />
@@ -20,7 +24,7 @@ export default function TabLayout() {
         options={{
           title: "QR Scanner",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="qrcode" color={color} />
+            <FontAwesome size={26} name="qrcode" color={color} />
           ),
         }}
       />
@@ -29,7 +33,7 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="cog" color={color} />
+            <FontAwesome size={26} name="cog" color={color} />
           ),
         }}
       />
