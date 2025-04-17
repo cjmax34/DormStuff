@@ -19,7 +19,7 @@ export default function Index() {
   if (!isPermissionGranted) {
     const handlePermission = async () => {
       await requestPermission();
-    }
+    };
     handlePermission();
     return (
       <SafeAreaView className="flex-1 justify-center items-center">
@@ -28,7 +28,5 @@ export default function Index() {
     );
   }
 
-  return (
-    <Redirect href="/(auth)/login" />
-  );
+  return <Redirect href="/(auth)/login" />;
 }
