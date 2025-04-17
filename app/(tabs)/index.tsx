@@ -1,16 +1,20 @@
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 
 export default function Home() {
   return (
-    <SafeAreaView className="flex-1 justify-around items-center py-20">
+    <SafeAreaView className="flex-1">
       <Stack.Screen options={{ title: "Home", headerShown: false }} />
-      <Text className="text-white text-4xl font-gbold">
-        QR Code Scanner
-      </Text>
-      <View className="gap-5">
+      <View className="flex-row p-4">
+        <Text className="text-white text-3xl font-gbold">
+          Centennial RH
+        </Text>
       </View>
+      <View className="flex-row justify-center items-center m-4">
+        <Image source={require("@/assets/images/centennialrh.png")} className="flex-1 h-60 rounded-xl"/>
+      </View>
+
     </SafeAreaView>
   );
 }
