@@ -24,13 +24,7 @@ const actions: Action[] = [
 ];
 
 export default function Home() {
-  const { residents } = useGlobalContext();
-  const residentsIn = residents.filter(
-    (resident) => resident.isIn === true
-  ).length;
-  const residentsOut = residents.filter(
-    (resident) => resident.isIn === false
-  ).length;
+  const { residents, statistics } = useGlobalContext();
   const router = useRouter();
 
   return (
@@ -47,12 +41,12 @@ export default function Home() {
       </View>
       <View className="flex-row mt-4 gap-3">
         <StatisticsCard
-          count={residentsIn}
+          count={statistics.residentsIn}
           label="Residents In"
           color="text-green-500"
         />
         <StatisticsCard
-          count={residentsOut}
+          count={statistics.residentsOut}
           label="Residents Out"
           color="text-yellow-300"
         />

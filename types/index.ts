@@ -13,6 +13,10 @@ export interface Resident {
 export interface GlobalContextType {
   residents: Resident[];
   setResidents: React.Dispatch<React.SetStateAction<Resident[]>>;
+  statistics : {
+    residentsIn: number;
+    residentsOut: number;
+  }
 }
 
 export interface Action {

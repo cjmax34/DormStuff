@@ -58,6 +58,13 @@ const sampleResidents: Resident[] = [
     isIn: false,
     time: "2021-01-01 19:15:00",
   },
+  {
+    id: 9,
+    name: "Calvin James Maximo",
+    room: "312",
+    isIn: false,
+    time: "2025-04-11 16:00:00"
+  }
 ];
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -70,12 +77,16 @@ export const useGlobalContext = () => {
   return context;
 };
 
-
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [residents, setResidents] = useState<Resident[]>(sampleResidents);
 
+  const statistics = {
+    residentsIn: residents.filter((resident) => resident.isIn === true).length,
+    residentsOut: residents.filter((resident) => resident.isIn === false).length,
+  };
+
   return (
-    <GlobalContext.Provider value={{ residents, setResidents }}>
+    <GlobalContext.Provider value={{ residents, setResidents, statistics }}>
       {children}
     </GlobalContext.Provider>
   );
