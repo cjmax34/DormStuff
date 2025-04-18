@@ -2,14 +2,8 @@ import { FlatList, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import { useState } from "react";
+import { useGlobalContext } from "@/hooks/useGlobalProvider";
 
-interface Resident {
-  id: number;
-  name: string;
-  room: string;
-  isIn: boolean;
-  time: string;
-}
 
 const formatTime = (time: string) => {
   const date = new Date(time);
@@ -24,70 +18,12 @@ const formatTime = (time: string) => {
   })}`;
 }
 
-const sampleResidents: Resident[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    room: "101",
-    isIn: true,
-    time: "2021-01-01 12:00:00",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    room: "102",
-    isIn: false,
-    time: "2021-01-01 12:00:00",
-  },
-  {
-    id: 3,
-    name: "Bob Smith",
-    room: "103",
-    isIn: true,
-    time: "2021-01-01 14:30:00",
-  },
-  {
-    id: 4,
-    name: "Alice Johnson",
-    room: "104",
-    isIn: false,
-    time: "2021-01-01 15:45:00",
-  },
-  {
-    id: 5,
-    name: "Mike Wilson",
-    room: "201",
-    isIn: true,
-    time: "2021-01-01 16:20:00",
-  },
-  {
-    id: 6,
-    name: "Sarah Davis",
-    room: "202",
-    isIn: false,
-    time: "2021-01-01 17:10:00",
-  },
-  {
-    id: 7,
-    name: "Tom Brown",
-    room: "203",
-    isIn: true,
-    time: "2021-01-01 18:00:00",
-  },
-  {
-    id: 8,
-    name: "Emily White",
-    room: "204",
-    isIn: false,
-    time: "2021-01-01 19:15:00",
-  },
-];
-
 export default function Logbook() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | "in" | "out">("all");
+  const { residents } = useGlobalContext();
 
-  const filteredResidents = sampleResidents.filter((resident) => {
+  const filteredResidents = residents.filter((resident) => {
     const matchesSearch =
       resident.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       resident.room.includes(searchQuery);
@@ -164,7 +100,7 @@ export default function Logbook() {
                   </Text>
                 </View>
                 <View className="justify-center items-end">
-                  <Text className={`text-xl text-white font-gbold ${item.isIn ? "text-green-500": "text-yellow-300"}`}>
+                  <Text className={`text-xl font-gbold ${item.isIn ? "text-green-500": "text-yellow-300"}`}>
                     {item.isIn ? "IN" : "OUT"}
                   </Text>
                   <Text className="text-sm text-gray-400 font-gregular">{formatTime(item.time)}</Text>
