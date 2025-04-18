@@ -32,18 +32,18 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 p-4">
       <Stack.Screen options={{ title: "Home", headerShown: false }} />
-      <View className="flex-row p-4">
+      <View className="flex-row">
         <Text className="text-white text-3xl font-gbold">Centennial RH</Text>
       </View>
-      <View className="flex-row justify-center items-center m-4">
+      <View className="flex-row justify-center items-center mt-6">
         <Image
           source={require("@/assets/images/centennialrh.png")}
           className="flex-1 h-60 rounded-xl"
         />
       </View>
-      <View className="px-4">
+      <View className="mt-4">
         <Text className="text-white text-2xl font-gbold">Features</Text>
         <View className="">
           <FlatList
