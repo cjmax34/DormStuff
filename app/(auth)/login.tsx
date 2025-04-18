@@ -33,7 +33,7 @@ export default function Login() {
               className="w-full h-12 px-4 border border-gray-300 rounded-lg text-white"
               placeholder="xyz@example.com"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(e) => setEmail(e)}
               keyboardType="email-address"
               placeholderTextColor="gray"
             />
@@ -48,7 +48,7 @@ export default function Login() {
               className="w-full h-12 px-4 border border-gray-300 rounded-lg text-white"
               placeholder=""
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(pass) => setPassword(pass)}
               secureTextEntry={true}
               placeholderTextColor="gray"
             />
@@ -68,7 +68,7 @@ export default function Login() {
               <Text className="text-center font-gregular text-white">
                 Don't have an account?{" "}
               </Text>
-              <TouchableOpacity onPress={() => router.push("/(auth)/register")}>
+              <TouchableOpacity onPress={() => router.replace("/(auth)/register")}>
                 <Text className="text-center font-gregular text-white underline">
                   Sign up
                 </Text>

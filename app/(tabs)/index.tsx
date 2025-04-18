@@ -1,20 +1,30 @@
 import { FlatList, Image, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack, useRouter } from "expo-router";
+import { Href, Stack, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-const features = [
+interface Feature {
+  id: number;
+  title: string;
+  description: string;
+  icon: string;
+  path: Href;
+}
+
+const features: Feature[] = [
   {
     id: 1,
     title: "QR Code Scanner",
     description: "Scan QR codes to view student information",
     icon: "qrcode",
+    path: "/scanner"
   },
   {
     id: 2,
     title: "Student Logbook",
     description: "Check who is currently in and out of the dorm",
     icon: "user",
+    path: "/logbook"
   },
 ];
 
@@ -45,7 +55,7 @@ export default function Home() {
               return (
                 <Pressable
                   className="flex-1 rounded-xl my-4 border border-white p-3 active:bg-gray-700 gap-4"
-                  onPress={() => router.push("/scanner")}
+                  onPress={() => router.push(item.path)}
                 >
                   <View className="flex-col items-center">
                     <FontAwesome
