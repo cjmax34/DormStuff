@@ -44,7 +44,6 @@ export default function Home() {
         />
       </View>
       <View className="mt-4">
-        <Text className="text-white text-2xl font-gbold">Features</Text>
         <View className="">
           <FlatList
             data={features}
