@@ -4,6 +4,7 @@ import { Stack, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useGlobalContext } from "@/hooks/useGlobalProvider";
 import { Action } from "@/types";
+import StatisticsCard from "@/components/StatisticsCard";
 
 const features: Action[] = [
   {
@@ -24,6 +25,12 @@ const features: Action[] = [
 
 export default function Home() {
   const { residents } = useGlobalContext();
+  const residentsIn = residents.filter(
+    (resident) => resident.isIn === true
+  ).length;
+  const residentsOut = residents.filter(
+    (resident) => resident.isIn === false
+  ).length;
   const router = useRouter();
 
   return (
@@ -39,22 +46,16 @@ export default function Home() {
         />
       </View>
       <View className="flex-row mt-4 gap-3">
-        <View className="flex-1 flex-col rounded-xl border border-white p-4 bg-neutral-800/50">
-          <Text className="text-4xl text-green-500 font-gbold text-center">
-            {residents.filter((resident) => resident.isIn === true).length}
-          </Text>
-          <Text className="text-base font-regular text-gray-300 text-center mt-1">
-            Residents In
-          </Text>
-        </View>
-        <View className="flex-1 flex-col rounded-xl border border-white p-4 bg-neutral-800/50">
-          <Text className="text-4xl text-yellow-300 font-gbold text-center">
-            {residents.filter((resident) => resident.isIn === false).length}
-          </Text>
-          <Text className="text-base font-regular text-gray-300 text-center mt-1">
-            Residents Out
-          </Text>
-        </View>
+        <StatisticsCard
+          count={residentsIn}
+          label="Residents In"
+          color="text-green-500"
+        />
+        <StatisticsCard
+          count={residentsOut}
+          label="Residents Out"
+          color="text-yellow-300"
+        />
       </View>
       <View className="mt-4">
         <View className="">

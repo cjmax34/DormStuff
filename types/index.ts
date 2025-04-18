@@ -1,5 +1,6 @@
 import { Href } from "expo-router";
 
+//  Resident
 export interface Resident {
   id: number;
   name: string;
@@ -8,6 +9,7 @@ export interface Resident {
   time: string;
 }
 
+//  For Global Context purposes
 export interface GlobalContextType {
   residents: Resident[];
   setResidents: React.Dispatch<React.SetStateAction<Resident[]>>;
