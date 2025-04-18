@@ -11,6 +11,19 @@ interface Resident {
   time: string;
 }
 
+const formatTime = (time: string) => {
+  const date = new Date(time);
+  return `As of ${date.toLocaleDateString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: '2-digit'
+  })} ${date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  })}`;
+}
+
 const sampleResidents: Resident[] = [
   {
     id: 1,
@@ -142,7 +155,7 @@ export default function Logbook() {
           return (
             <View className="flex-1 rounded-xl my-2 border border-white p-3 active:bg-gray-700 gap-4">
               <View className="flex-row justify-between">
-                <View>
+                <View className="justify-center">
                   <Text className="text-white text-xl font-gbold">
                     {item.name}
                   </Text>
@@ -150,10 +163,11 @@ export default function Logbook() {
                     Room Number: {item.room}
                   </Text>
                 </View>
-                <View className="justify-center">
-                  <Text className={`text-3xl text-white font-gbold ${item.isIn ? "text-green-500": "text-yellow-300"}`}>
+                <View className="justify-center items-end">
+                  <Text className={`text-xl text-white font-gbold ${item.isIn ? "text-green-500": "text-yellow-300"}`}>
                     {item.isIn ? "IN" : "OUT"}
                   </Text>
+                  <Text className="text-sm text-gray-400 font-gregular">{formatTime(item.time)}</Text>
                 </View>
               </View>
             </View>
