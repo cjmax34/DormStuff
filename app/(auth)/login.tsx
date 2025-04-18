@@ -1,6 +1,7 @@
+import CustomInput from "@/components/CustomInput";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login() {
@@ -27,32 +28,21 @@ export default function Login() {
         </View>
 
         <View className="gap-8">
-          <View className="gap-2">
-            <Text className="text-lg font-medium dark:text-white">Email</Text>
-            <TextInput
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg text-white"
-              placeholder="xyz@example.com"
-              value={email}
-              onChangeText={(e) => setEmail(e)}
-              keyboardType="email-address"
-              placeholderTextColor="gray"
-            />
-          </View>
+          <CustomInput
+            label="Email"
+            placeholder="xyz@example.com"
+            value={email}
+            onChangeText={(e) => setEmail(e)}
+            keyboardType="email-address"
+          />
 
-          <View className="gap-2">
-            <View className="flex-row justify-between">
-              <Text className="text-lg font-medium text-white">Password</Text>
-            </View>
-
-            <TextInput
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg text-white"
-              placeholder=""
-              value={password}
-              onChangeText={(pass) => setPassword(pass)}
-              secureTextEntry={true}
-              placeholderTextColor="gray"
-            />
-          </View>
+          <CustomInput
+            label="Password"
+            placeholder="******"
+            value={password}
+            onChangeText={(pass) => setPassword(pass)}
+            secureTextEntry={true}
+          />
 
           <View className="gap-6">
             <TouchableOpacity
@@ -61,14 +51,11 @@ export default function Login() {
             >
               <Text className="text-center font-gmedium">Login</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity className="w-full h-12 border border-gray-300 rounded-lg justify-center" onPress={() => router.push("/(auth)/register")}>
-              <Text className="text-center font-gmedium text-white">Login with Google</Text>
-            </TouchableOpacity> */}
             <View className="flex-row justify-center">
               <Text className="text-center font-gregular text-white">
                 Don't have an account?{" "}
               </Text>
-              <TouchableOpacity onPress={() => router.replace("/(auth)/register")}>
+              <TouchableOpacity onPress={() => router.replace("/register")}>
                 <Text className="text-center font-gregular text-white underline">
                   Sign up
                 </Text>

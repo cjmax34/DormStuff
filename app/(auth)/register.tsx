@@ -1,7 +1,8 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Stack } from "expo-router";
+import CustomInput from "@/components/CustomInput";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -28,42 +29,28 @@ export default function Register() {
         </View>
 
         <View className="gap-8">
-          <View className="gap-2">
-            <Text className="text-lg font-medium dark:text-white">Name</Text>
-            <TextInput
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg text-white"
-              placeholder="John Doe"
-              value={name}
-              onChangeText={setName}
-              placeholderTextColor="gray"
-            />
-          </View>
-          <View className="gap-2">
-            <Text className="text-lg font-medium dark:text-white">Email</Text>
-            <TextInput
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg text-white"
-              placeholder="xyz@example.com"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              placeholderTextColor="gray"
-            />
-          </View>
+          <CustomInput
+            label="Name"
+            placeholder="John Doe"
+            value={name}
+            onChangeText={setName}
+          />
 
-          <View className="gap-2">
-            <View className="flex-row justify-between">
-              <Text className="text-lg font-medium text-white">Password</Text>
-            </View>
+          <CustomInput
+            label="Email"
+            placeholder="xyz@example.com"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
 
-            <TextInput
-              className="w-full h-12 px-4 border border-gray-300 rounded-lg text-white"
-              placeholder=""
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={true}
-              placeholderTextColor="gray"
-            />
-          </View>
+          <CustomInput
+            label="Password"
+            placeholder="******"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={true}
+          />
 
           <View className="gap-6">
             <TouchableOpacity
@@ -72,9 +59,6 @@ export default function Register() {
             >
               <Text className="text-center font-gmedium">Register</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity className="w-full h-12 border border-gray-300 rounded-lg justify-center" onPress={() => router.push("/(auth)/register")}>
-              <Text className="text-center font-gmedium text-white">Login with Google</Text>
-            </TouchableOpacity> */}
             <View className="flex-row justify-center">
               <Text className="text-center font-gregular text-white">
                 Already have an account?{" "}
