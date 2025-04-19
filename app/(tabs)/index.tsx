@@ -1,16 +1,18 @@
-import { Image, Text, View } from "react-native";
+import { Alert, Image, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { Action } from "@/types";
 import StatisticsCard from "@/components/StatisticsCard";
 import ActionCard from "@/components/ActionCard";
+import { supabase } from "@/lib/supabase";
+import { useState } from "react";
 
 const actions: Action[] = [
   {
     id: 1,
     title: "QR Code Scanner",
-    description: "Scan QR codes to view student information",
+    description: "Scan QR code to log in/out",
     icon: "qrcode",
     path: "/scanner",
   },
@@ -25,14 +27,27 @@ const actions: Action[] = [
 
 export default function Home() {
   const { residents, statistics } = useGlobalContext();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  async function handleLogout() {
+    setLoading(true);
+    const { error } = await supabase.auth.signOut();
+    if (error) Alert.alert("Logout failed", error.message);
+    setLoading(false);
+  }
 
   return (
     <SafeAreaView className="flex-1 p-4">
       <Stack.Screen options={{ title: "Home", headerShown: false }} />
-      <View className="flex-row">
+      <View className="flex-row justify-between items-center">
         <Text className="text-white text-3xl font-gbold">Centennial RH</Text>
-        {/* TODO: Add logout functionality */}
+        <Pressable 
+          onPress={handleLogout} 
+          className="px-4 py-2 rounded-lg bg-neutral-700 active:bg-neutral-900 items-center gap-2"
+        >
+          <Text className="text-white font-gmedium">Log out</Text>
+        </Pressable>
       </View>
       <View className="flex-row justify-center items-center mt-6">
         <Image
