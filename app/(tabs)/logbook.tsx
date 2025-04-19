@@ -84,6 +84,7 @@ export default function Logbook() {
       </View>
 
       {/* Resident List */}
+      {/* TODO: Add component to render when empty */}
       <FlatList
         data={filteredResidents}
         renderItem={({ item }) => {
