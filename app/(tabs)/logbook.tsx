@@ -1,8 +1,9 @@
-import { FlatList, Pressable, Text, TextInput, View } from "react-native";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import { useState } from "react";
 import { useGlobalContext } from "@/contexts/GlobalContext";
+import CustomInput from "@/components/CustomInput";
 
 
 const formatTime = (time: string) => {
@@ -46,16 +47,13 @@ export default function Logbook() {
         <Text className="text-white text-3xl font-gbold">Logbook</Text>
       </View>
       {/* Search input */}
-      <View className="">
-        <TextInput
-          className="w-full h-12 px-4 border border-gray-300 rounded-lg text-white"
-          placeholder="Search by name or room number..."
-          value={searchQuery}
-          onChangeText={(query) => setSearchQuery(query)}
-          placeholderTextColor="gray"
-          autoCapitalize="none"
-        />
-      </View>
+      <CustomInput
+        label=""
+        placeholder="Search by name or room number..."
+        value={searchQuery}
+        onChangeText={(query) => setSearchQuery(query)}
+        autoCapitalize="none"
+      />
 
       {/* Tabs */}
       <View className="flex-row mt-4 justify-center">
