@@ -1,28 +1,47 @@
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import CustomInput from "@/components/CustomInput";
-
+import { supabase } from "@/lib/supabase";
 
 const formatTime = (time: string) => {
   const date = new Date(time);
-  return `As of ${date.toLocaleDateString('en-US', {
-    month: '2-digit',
-    day: '2-digit',
-    year: '2-digit'
-  })} ${date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
+  return `As of ${date.toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "2-digit",
+  })} ${date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
   })}`;
-}
+};
 
 export default function Logbook() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | "in" | "out">("all");
-  const { residents } = useGlobalContext();
+  const { residents, loadResidents } = useGlobalContext();
+
+  // TODO: Refactor (put this in global)
+  useEffect(() => {
+    const channels = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "residents" },
+        (payload) => {
+          console.log("Change received!", payload);
+          loadResidents();
+        }
+      )
+      .subscribe();
+
+      return () => {
+        supabase.removeChannel(channels);
+      };
+  }, []);
 
   const filteredResidents = residents.filter((resident) => {
     const matchesSearch =
@@ -100,10 +119,16 @@ export default function Logbook() {
                   </Text>
                 </View>
                 <View className="justify-center items-end">
-                  <Text className={`text-xl font-gbold ${item.is_in ? "text-green-500": "text-yellow-300"}`}>
+                  <Text
+                    className={`text-xl font-gbold ${
+                      item.is_in ? "text-green-500" : "text-yellow-300"
+                    }`}
+                  >
                     {item.is_in ? "IN" : "OUT"}
                   </Text>
-                  <Text className="text-sm text-gray-400 font-gregular">{formatTime(item.last_updated)}</Text>
+                  <Text className="text-sm text-gray-400 font-gregular">
+                    {formatTime(item.last_updated)}
+                  </Text>
                 </View>
               </View>
             </View>
