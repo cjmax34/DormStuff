@@ -1,19 +1,34 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Stack } from "expo-router";
 import CustomInput from "@/components/CustomInput";
+import { supabase } from "@/lib/supabase";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleRegister = () => {
-    // TODO: Implement register logic
-    router.replace("/(tabs)");
-  };
+  async function handleRegister() {
+    setLoading(true);
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    // if (!session) {
+    //   router.replace("/login");
+    // }
+
+    if (error) Alert.alert("Registration Failed", error.message);
+    setLoading(false);
+  }
 
   return (
     <SafeAreaView className="flex-1 justify-center p-4">
@@ -56,6 +71,7 @@ export default function Register() {
             <TouchableOpacity
               className="w-full h-12 bg-white rounded-lg justify-center"
               onPress={handleRegister}
+              disabled={loading}
             >
               <Text className="text-center font-gmedium">Register</Text>
             </TouchableOpacity>
@@ -63,7 +79,7 @@ export default function Register() {
               <Text className="text-center font-gregular text-white">
                 Already have an account?{" "}
               </Text>
-              <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
+              <TouchableOpacity onPress={() => router.push("/login")}>
                 <Text className="text-center font-gregular text-white underline">
                   Sign in
                 </Text>

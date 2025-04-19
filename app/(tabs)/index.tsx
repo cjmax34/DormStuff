@@ -32,6 +32,7 @@ export default function Home() {
       <Stack.Screen options={{ title: "Home", headerShown: false }} />
       <View className="flex-row">
         <Text className="text-white text-3xl font-gbold">Centennial RH</Text>
+        {/* TODO: Add logout functionality */}
       </View>
       <View className="flex-row justify-center items-center mt-6">
         <Image

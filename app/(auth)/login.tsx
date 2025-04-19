@@ -17,6 +17,7 @@ export default function Login() {
       email,
       password,
     });
+
     if (error) Alert.alert("Login Failed", error.message);
     setLoading(false);
   }
@@ -55,6 +56,7 @@ export default function Login() {
             <TouchableOpacity
               className="w-full h-12 bg-white rounded-lg justify-center"
               onPress={handleLogin}
+              disabled={loading}
             >
               <Text className="text-center font-gmedium">Login</Text>
             </TouchableOpacity>
