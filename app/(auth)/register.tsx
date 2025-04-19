@@ -4,17 +4,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Stack } from "expo-router";
 import CustomInput from "@/components/CustomInput";
 import { supabase } from "@/lib/supabase";
+import { createResidentProfile } from "@/services/account-services";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [roomNum, setRoomNum] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   async function handleRegister() {
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
@@ -22,8 +24,28 @@ export default function Register() {
     if (error) {
       Alert.alert("Registration Failed", error.message);
       setPassword("");
+      setLoading(false);
+      return;
     }
-    
+
+    const user = data.user;
+    if (!user) {
+      Alert.alert("Failed to get user!");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await createResidentProfile(user.id, name, email, roomNum);
+      Alert.alert("Sign-up successful!");
+    } catch (error) {
+      let errorMessage = "An unknown error occurred.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      Alert.alert(errorMessage);
+    }
+
     setLoading(false);
   }
 
@@ -55,6 +77,14 @@ export default function Register() {
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
+            autoCapitalize="none"
+          />
+
+          <CustomInput
+            label="Room Number"
+            placeholder="E.g. 123"
+            value={roomNum}
+            onChangeText={setRoomNum}
             autoCapitalize="none"
           />
 
