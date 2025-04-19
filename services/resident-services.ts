@@ -4,7 +4,7 @@ export async function fetchAllResidents() {
   const { data, error } = await supabase
     .from("residents")
     .select("*")
-    .order("name");
+    .order("room");
 
   if (error) {
     console.error("Error fetching residents:", error);
