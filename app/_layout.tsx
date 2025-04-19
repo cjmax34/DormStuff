@@ -10,7 +10,7 @@ import { Stack } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { StatusBar } from "expo-status-bar";
 import "@/global.css";
-import GlobalProvider from "@/hooks/useGlobalProvider";
+import GlobalProvider from "@/contexts/GlobalContext";
 import AuthProvider from "@/contexts/AuthContext";
 
 SplashScreen.preventAutoHideAsync();

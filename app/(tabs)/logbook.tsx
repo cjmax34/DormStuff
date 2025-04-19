@@ -2,7 +2,7 @@ import { FlatList, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import { useState } from "react";
-import { useGlobalContext } from "@/hooks/useGlobalProvider";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 
 
 const formatTime = (time: string) => {
