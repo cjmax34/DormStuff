@@ -1,18 +1,25 @@
 import CustomInput from "@/components/CustomInput";
+import { supabase } from "@/lib/supabase";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = () => {
-    // TODO: Implement login logic
-    router.replace("/(tabs)");
-  };
+  async function handleLogin() {
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) Alert.alert("Login Failed", error.message);
+    setLoading(false);
+  }
 
   return (
     <SafeAreaView className="flex-1 justify-center p-4">

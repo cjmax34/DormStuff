@@ -1,7 +1,14 @@
+import { useAuth } from "@/contexts/AuthContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 
 export default function TabLayout() {
+  const { session } = useAuth();
+
+  if (!session) {
+    return <Redirect href={'/(auth)/login'} />
+  }
+
   return (
     <Tabs
       screenOptions={{
