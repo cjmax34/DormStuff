@@ -42,14 +42,16 @@ export default function Login() {
             value={email}
             onChangeText={(e) => setEmail(e)}
             keyboardType="email-address"
+            autoCapitalize="none"
           />
 
           <CustomInput
             label="Password"
-            placeholder="******"
+            placeholder="Enter your password"
             value={password}
             onChangeText={(pass) => setPassword(pass)}
             secureTextEntry={true}
+            autoCapitalize="none"
           />
 
           <View className="gap-6">

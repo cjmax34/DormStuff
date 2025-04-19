@@ -49,6 +49,7 @@ export default function Register() {
             placeholder="John Doe"
             value={name}
             onChangeText={setName}
+            autoCapitalize="words"
           />
 
           <CustomInput
@@ -57,14 +58,16 @@ export default function Register() {
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
+            autoCapitalize="none"
           />
 
           <CustomInput
             label="Password"
-            placeholder="******"
+            placeholder="Minimum of 8 characters"
             value={password}
             onChangeText={setPassword}
             secureTextEntry={true}
+            autoCapitalize="none"
           />
 
           <View className="gap-6">

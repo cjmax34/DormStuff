@@ -53,6 +53,7 @@ export default function Logbook() {
           value={searchQuery}
           onChangeText={(query) => setSearchQuery(query)}
           placeholderTextColor="gray"
+          autoCapitalize="none"
         />
       </View>
 
