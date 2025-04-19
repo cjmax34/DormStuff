@@ -14,19 +14,16 @@ export default function Register() {
 
   async function handleRegister() {
     setLoading(true);
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
 
-    // if (!session) {
-    //   router.replace("/login");
-    // }
-
-    if (error) Alert.alert("Registration Failed", error.message);
+    if (error) {
+      Alert.alert("Registration Failed", error.message);
+      setPassword("");
+    }
+    
     setLoading(false);
   }
 

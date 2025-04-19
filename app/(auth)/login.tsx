@@ -18,7 +18,11 @@ export default function Login() {
       password,
     });
 
-    if (error) Alert.alert("Login Failed", error.message);
+    if (error) {
+      Alert.alert("Login Failed", error.message);
+      setPassword("");
+    }
+     
     setLoading(false);
   }
 
