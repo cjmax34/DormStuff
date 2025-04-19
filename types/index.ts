@@ -2,21 +2,24 @@ import { Href } from "expo-router";
 
 //  Resident
 export interface Resident {
-  id: number;
+  id: string;
   name: string;
+  email: string;
   room: string;
-  isIn: boolean;
-  time: string;
+  is_in: boolean;
+  last_updated: string;
+  created_at: string;
 }
 
-//  For Global Context purposes
 export interface GlobalContextType {
   residents: Resident[];
-  setResidents: React.Dispatch<React.SetStateAction<Resident[]>>;
-  statistics : {
+  setResidents: (residents: Resident[]) => void;
+  statistics: {
     residentsIn: number;
     residentsOut: number;
-  }
+  };
+  loading: boolean;
+  loadResidents: () => Promise<void>;
 }
 
 export interface Action {

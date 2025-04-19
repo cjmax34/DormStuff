@@ -1,71 +1,6 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { GlobalContextType, Resident } from "@/types";
-
-const sampleResidents: Resident[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    room: "101",
-    isIn: true,
-    time: "2021-01-01 12:00:00",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    room: "102",
-    isIn: false,
-    time: "2021-01-01 12:00:00",
-  },
-  {
-    id: 3,
-    name: "Bob Smith",
-    room: "103",
-    isIn: true,
-    time: "2021-01-01 14:30:00",
-  },
-  {
-    id: 4,
-    name: "Alice Johnson",
-    room: "104",
-    isIn: false,
-    time: "2021-01-01 15:45:00",
-  },
-  {
-    id: 5,
-    name: "Mike Wilson",
-    room: "201",
-    isIn: true,
-    time: "2021-01-01 16:20:00",
-  },
-  {
-    id: 6,
-    name: "Sarah Davis",
-    room: "202",
-    isIn: false,
-    time: "2021-01-01 17:10:00",
-  },
-  {
-    id: 7,
-    name: "Tom Brown",
-    room: "203",
-    isIn: true,
-    time: "2021-01-01 18:00:00",
-  },
-  {
-    id: 8,
-    name: "Emily White",
-    room: "204",
-    isIn: false,
-    time: "2021-01-01 19:15:00",
-  },
-  {
-    id: 9,
-    name: "Calvin James Maximo",
-    room: "312",
-    isIn: false,
-    time: "2025-04-11 16:00:00"
-  }
-];
+import { fetchAllResidents } from "@/services/resident-services";
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
 
@@ -78,15 +13,31 @@ export const useGlobalContext = () => {
 };
 
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
-  const [residents, setResidents] = useState<Resident[]>(sampleResidents);
+  const [residents, setResidents] = useState<Resident[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadResidents();
+  }, [])
+
+  async function loadResidents () {
+    try {
+      const data = await fetchAllResidents();
+      setResidents(data);
+    } catch (error) {
+      console.error(error); 
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const statistics = {
-    residentsIn: residents.filter((resident) => resident.isIn === true).length,
-    residentsOut: residents.filter((resident) => resident.isIn === false).length,
+    residentsIn: residents.filter((resident) => resident.is_in === true).length,
+    residentsOut: residents.filter((resident) => resident.is_in === false).length,
   };
 
   return (
-    <GlobalContext.Provider value={{ residents, setResidents, statistics }}>
+    <GlobalContext.Provider value={{ residents, setResidents, statistics, loading, loadResidents }}>
       {children}
     </GlobalContext.Provider>
   );

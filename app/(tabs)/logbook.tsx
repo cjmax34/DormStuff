@@ -34,10 +34,10 @@ export default function Logbook() {
     }
 
     if (activeTab === "in") {
-      return matchesSearch && resident.isIn;
+      return matchesSearch && resident.is_in;
     }
 
-    return matchesSearch && !resident.isIn;
+    return matchesSearch && !resident.is_in;
   });
 
   return (
@@ -99,10 +99,10 @@ export default function Logbook() {
                   </Text>
                 </View>
                 <View className="justify-center items-end">
-                  <Text className={`text-xl font-gbold ${item.isIn ? "text-green-500": "text-yellow-300"}`}>
-                    {item.isIn ? "IN" : "OUT"}
+                  <Text className={`text-xl font-gbold ${item.is_in ? "text-green-500": "text-yellow-300"}`}>
+                    {item.is_in ? "IN" : "OUT"}
                   </Text>
-                  <Text className="text-sm text-gray-400 font-gregular">{formatTime(item.time)}</Text>
+                  <Text className="text-sm text-gray-400 font-gregular">{formatTime(item.last_updated)}</Text>
                 </View>
               </View>
             </View>
