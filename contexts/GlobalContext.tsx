@@ -1,6 +1,8 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { GlobalContextType, Resident } from "@/types";
 import { fetchAllResidents } from "@/services/resident-services";
+import { subscribeToTableChanges } from "@/api/supabase";
+import { supabase } from "@/lib/supabase";
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
 
@@ -18,6 +20,18 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     loadResidents();
+
+    const channel = subscribeToTableChanges({
+      table: "residents",
+      callback: (payload) => {
+        console.log("Change received in Global Context!", payload);
+        loadResidents();
+      },
+    });
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [])
 
   async function loadResidents () {

@@ -1,10 +1,9 @@
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import CustomInput from "@/components/CustomInput";
-import { supabase } from "@/lib/supabase";
 
 const formatTime = (time: string) => {
   const date = new Date(time);
@@ -22,26 +21,7 @@ const formatTime = (time: string) => {
 export default function Logbook() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | "in" | "out">("all");
-  const { residents, loadResidents } = useGlobalContext();
-
-  // TODO: Refactor (put this in global)
-  useEffect(() => {
-    const channels = supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "residents" },
-        (payload) => {
-          console.log("Change received!", payload);
-          loadResidents();
-        }
-      )
-      .subscribe();
-
-      return () => {
-        supabase.removeChannel(channels);
-      };
-  }, []);
+  const { residents } = useGlobalContext();
 
   const filteredResidents = residents.filter((resident) => {
     const matchesSearch =
