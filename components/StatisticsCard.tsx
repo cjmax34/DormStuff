@@ -18,7 +18,7 @@ export default function StatisticsCard({
         {count}
       </Text>
       <Text className="text-base font-regular text-gray-300 text-center mt-1">
-        {label}
+      {count === 1 ? 'Resident' : 'Residents'} {label}
       </Text>
     </View>
   );

@@ -26,7 +26,7 @@ const actions: Action[] = [
 ];
 
 export default function Home() {
-  const { residents, statistics } = useGlobalContext();
+  const { statistics } = useGlobalContext();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -58,12 +58,12 @@ export default function Home() {
       <View className="flex-row mt-4 gap-3">
         <StatisticsCard
           count={statistics.residentsIn}
-          label="Residents In"
+          label="In"
           color="text-green-500"
         />
         <StatisticsCard
           count={statistics.residentsOut}
-          label="Residents Out"
+          label="Out"
           color="text-yellow-300"
         />
       </View>
