@@ -13,3 +13,31 @@ export async function fetchAllResidents() {
 
   return data;
 }
+
+export async function getNumberOfResidentsIn() {
+  const { count, error } = await supabase
+    .from("residents")
+    .select('*', { count: 'exact', head: true })
+    .is("is_in", true);
+
+  if (error) {
+    console.error("Error fetching residents:", error);
+    throw new Error(error.message);
+  }
+
+  return count;
+}
+
+export async function getNumberOfResidentsOut() {
+  const { count, error } = await supabase
+    .from("residents")
+    .select('*', { count: 'exact', head: true })
+    .is("is_in", false);
+
+  if (error) {
+    console.error("Error fetching residents:", error);
+    throw new Error(error.message);
+  }
+
+  return count;
+}

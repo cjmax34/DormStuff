@@ -1,8 +1,8 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { GlobalContextType, Resident } from "@/types";
-import { fetchAllResidents } from "@/services/resident-services";
 import { subscribeToTableChanges } from "@/api/supabase";
 import { supabase } from "@/lib/supabase";
+import { fetchAllResidents, getNumberOfResidentsIn, getNumberOfResidentsOut } from "@/services/resident-services";
+import { GlobalContextType, Resident } from "@/types";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
 
@@ -16,42 +16,47 @@ export const useGlobalContext = () => {
 
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [residents, setResidents] = useState<Resident[]>([]);
+  const [statistics, setStatistics] = useState({ residentsIn: 0, residentsOut: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadResidents();
+    loadResidentsAndStats();
 
     const channel = subscribeToTableChanges({
       table: "residents",
       callback: (payload) => {
         console.log("Change received in Global Context!", payload);
-        loadResidents();
+        loadResidentsAndStats();
       },
     });
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [])
+  }, []);
 
-  async function loadResidents () {
+  async function loadResidentsAndStats() {
     try {
-      const data = await fetchAllResidents();
+      const [data, inCount, outCount] = await Promise.all([
+        fetchAllResidents(),
+        getNumberOfResidentsIn(),
+        getNumberOfResidentsOut()
+      ]);
+      
       setResidents(data);
+      setStatistics({
+        residentsIn: inCount || 0,
+        residentsOut: outCount || 0
+      });
     } catch (error) {
-      console.error(error); 
+      console.error(error);
     } finally {
       setLoading(false);
     }
   }
 
-  const statistics = {
-    residentsIn: residents.filter((resident) => resident.is_in === true).length,
-    residentsOut: residents.filter((resident) => resident.is_in === false).length,
-  };
-
   return (
-    <GlobalContext.Provider value={{ residents, setResidents, statistics, loading, loadResidents }}>
+    <GlobalContext.Provider value={{ residents, setResidents, statistics, loading, loadResidents: loadResidentsAndStats }}>
       {children}
     </GlobalContext.Provider>
   );
