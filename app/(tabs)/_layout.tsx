@@ -3,9 +3,9 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Redirect, Tabs } from "expo-router";
 
 export default function TabLayout() {
-  const { session } = useAuth();
+  const { user } = useAuth();
 
-  if (!session) {
+  if (!user) {
     return <Redirect href={'/login'} />
   }
 
