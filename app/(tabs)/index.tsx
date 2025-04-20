@@ -1,12 +1,12 @@
+import ActionCard from "@/components/ActionCard";
+import StatisticsCard from "@/components/StatisticsCard";
+import { useGlobalContext } from "@/contexts/GlobalContext";
+import { supabase } from "@/lib/supabase";
+import { Action } from "@/types";
+import { Stack, useRouter } from "expo-router";
+import { useState } from "react";
 import { Alert, Image, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack, useRouter } from "expo-router";
-import { useGlobalContext } from "@/contexts/GlobalContext";
-import { Action } from "@/types";
-import StatisticsCard from "@/components/StatisticsCard";
-import ActionCard from "@/components/ActionCard";
-import { supabase } from "@/lib/supabase";
-import { useState } from "react";
 
 const actions: Action[] = [
   {
@@ -26,15 +26,15 @@ const actions: Action[] = [
 ];
 
 export default function Home() {
-  const { statistics } = useGlobalContext();
-  const [loading, setLoading] = useState(false);
+  const { statistics, loading: statsLoading } = useGlobalContext();
+  const [logoutLoading, setLogoutLoading] = useState(false);
   const router = useRouter();
 
   async function handleLogout() {
-    setLoading(true);
+    setLogoutLoading(true);
     const { error } = await supabase.auth.signOut();
     if (error) Alert.alert("Logout failed", error.message);
-    setLoading(false);
+    setLogoutLoading(false);
   }
 
   return (
@@ -60,11 +60,13 @@ export default function Home() {
           count={statistics.residentsIn}
           label="In"
           color="text-green-500"
+          loading={statsLoading}
         />
         <StatisticsCard
           count={statistics.residentsOut}
           label="Out"
           color="text-yellow-300"
+          loading={statsLoading}
         />
       </View>
       <View className="flex-row mt-4 gap-3">
