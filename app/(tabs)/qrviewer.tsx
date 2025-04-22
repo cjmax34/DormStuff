@@ -7,7 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function QRCodeViewer() {
   const { user } = useAuth();
-  const [loading, setIsLoading] = useState(false);
   const [qrValue, setQRValue] = useState("");
 
   useEffect(() => {
@@ -28,7 +27,7 @@ export default function QRCodeViewer() {
             backgroundColor="white"
           />
         ) : (
-          <ActivityIndicator size="large" color="#000" />
+          <ActivityIndicator size="large" color="#FFF" />
         )}
       </View>
     </SafeAreaView>
