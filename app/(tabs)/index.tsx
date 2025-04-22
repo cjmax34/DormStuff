@@ -18,6 +18,13 @@ const actions: Action[] = [
   },
   {
     id: 2,
+    title: "QR Code Viewer",
+    description: "View your QR code here",
+    icon: "qrcode",
+    path: "/qrviewer",
+  },
+  {
+    id: 3,
     title: "Student Logbook",
     description: "Check who is currently in and out of the dorm",
     icon: "user",
@@ -42,8 +49,8 @@ export default function Home() {
       <Stack.Screen options={{ title: "Home", headerShown: false }} />
       <View className="flex-row justify-between items-center">
         <Text className="text-white text-3xl font-gbold">Centennial RH</Text>
-        <Pressable 
-          onPress={handleLogout} 
+        <Pressable
+          onPress={handleLogout}
           className="px-4 py-2 rounded-lg bg-neutral-700 active:bg-neutral-900 items-center gap-2"
         >
           <Text className="text-white font-gmedium">Log out</Text>

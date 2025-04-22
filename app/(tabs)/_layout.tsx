@@ -36,6 +36,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="qrviewer"
+        options={{
+          title: "QR Viewer",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={26} name="qrcode" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="logbook"
         options={{
           title: "Logbook",
