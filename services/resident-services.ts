@@ -18,7 +18,7 @@ export async function getNumberOfResidentsIn() {
   const { count, error } = await supabase
     .from("residents")
     .select("*", { count: "exact", head: true })
-    .is("is_in", true);
+    .eq("status", "in");
 
   if (error) {
     console.error("Error fetching residents:", error);
@@ -32,7 +32,7 @@ export async function getNumberOfResidentsOut() {
   const { count, error } = await supabase
     .from("residents")
     .select("*", { count: "exact", head: true })
-    .is("is_in", false);
+    .eq("status", "out");
 
   if (error) {
     console.error("Error fetching residents:", error);
@@ -40,6 +40,20 @@ export async function getNumberOfResidentsOut() {
   }
 
   return count;
+}
+
+export async function fetchLogbook() {
+  const { data, error } = await supabase
+   .from("logbook")
+   .select("*")
+   .order("logged_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching logbook:", error);
+    throw new Error(error.message);
+  }
+
+  return data;
 }
 
 export async function getResidentName(userId: string) {
@@ -60,7 +74,7 @@ export async function getResidentName(userId: string) {
 export async function getResidentStatus(userId: string) {
   const { data, error } = await supabase
     .from("residents")
-    .select("is_in")
+    .select("status")
     .eq("id", userId)
     .single();
 
@@ -69,7 +83,21 @@ export async function getResidentStatus(userId: string) {
     throw new Error(error.message);
   }
 
-  return data?.is_in;
+  return data?.status;
+}
+
+export async function insertToLogbook(userId: string, status: boolean) {
+  const residentName = await getResidentName(userId);
+  const { error } = await supabase
+   .from("logbook")
+   .insert([{ id: userId, name: residentName, logged_at: new Date() }]);
+
+  if (error) {
+    console.error("Error inserting into logbook:", error);
+    throw new Error(error.message);
+  }
+
+  return;
 }
 
 export async function logResident(userId: string) {
@@ -77,17 +105,26 @@ export async function logResident(userId: string) {
     getResidentName(userId),
     getResidentStatus(userId),
   ]);
-  // console.log(residentName, currentResidentStatus);
+
+  const newResidentStatus = currentResidentStatus === "in" ? "out" : "in";
 
   const { error } = await supabase
     .from("residents")
-    .update({ is_in: !currentResidentStatus, last_updated: new Date() })
+    .update({ status: newResidentStatus, last_updated: new Date() })
     .eq("id", userId);
+    
 
   if (error) {
     console.error("Error logging resident:", error);
     throw new Error(error.message);
   }
 
-  return { name: residentName, status: !currentResidentStatus };
+  const { error: logbookError } = await supabase.rpc("log_resident", { resident_uuid: userId, resident_name: residentName, resident_new_status: newResidentStatus});
+
+  if (logbookError) {
+    console.error("Error logging resident:", logbookError);
+    throw new Error(logbookError.message);  
+  }
+
+  return { name: residentName, status: newResidentStatus };
 }

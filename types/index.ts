@@ -1,18 +1,8 @@
 import { Href } from "expo-router";
 
-//  Resident
-export interface Resident {
-  id: string;
-  name: string;
-  email: string;
-  room: string;
-  is_in: boolean;
-  last_updated: string;
-  created_at: string;
-}
-
 export interface GlobalContextType {
   residents: Resident[];
+  logbook: LogbookEntry[];
   setResidents: (residents: Resident[]) => void;
   statistics: {
     residentsIn: number;
@@ -28,4 +18,23 @@ export interface Action {
   description: string;
   icon: string;
   path: Href;
+}
+
+//  Resident
+export interface Resident {
+  id: string;
+  name: string;
+  email: string;
+  room: string;
+  status: string;
+  last_updated: string;
+  created_at: string;
+}
+
+// Logbook
+export interface LogbookEntry {
+  id: string;
+  name: string;
+  status: string;
+  logged_at: string;
 }
