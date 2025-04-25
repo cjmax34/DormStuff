@@ -17,7 +17,7 @@ export async function fetchAllResidents() {
 export async function getNumberOfResidentsIn() {
   const { count, error } = await supabase
     .from("residents")
-    .select('*', { count: 'exact', head: true })
+    .select("*", { count: "exact", head: true })
     .is("is_in", true);
 
   if (error) {
@@ -31,7 +31,7 @@ export async function getNumberOfResidentsIn() {
 export async function getNumberOfResidentsOut() {
   const { count, error } = await supabase
     .from("residents")
-    .select('*', { count: 'exact', head: true })
+    .select("*", { count: "exact", head: true })
     .is("is_in", false);
 
   if (error) {
@@ -42,12 +42,27 @@ export async function getNumberOfResidentsOut() {
   return count;
 }
 
+export async function getResidentName(userId: string) {
+  const { data, error } = await supabase
+    .from("residents")
+    .select("name")
+    .eq("id", userId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching resident status:", error);
+    throw new Error(error.message);
+  }
+
+  return data?.name;
+}
+
 export async function getResidentStatus(userId: string) {
   const { data, error } = await supabase
-  .from("residents")
-  .select("is_in")
-  .eq("id", userId)
-  .single();
+    .from("residents")
+    .select("is_in")
+    .eq("id", userId)
+    .single();
 
   if (error) {
     console.error("Error fetching resident status:", error);
@@ -58,18 +73,21 @@ export async function getResidentStatus(userId: string) {
 }
 
 export async function logResident(userId: string) {
-  const currentResidentStatus = await getResidentStatus(userId);
-  console.log(currentResidentStatus);
+  const [residentName, currentResidentStatus] = await Promise.all([
+    getResidentName(userId),
+    getResidentStatus(userId),
+  ]);
+  console.log(residentName, currentResidentStatus);
 
   const { error } = await supabase
-   .from("residents")
-   .update({ is_in: !currentResidentStatus, last_updated: new Date() })
-   .eq("id", userId);
+    .from("residents")
+    .update({ is_in: !currentResidentStatus, last_updated: new Date() })
+    .eq("id", userId);
 
   if (error) {
     console.error("Error logging resident:", error);
     throw new Error(error.message);
   }
 
-  return !currentResidentStatus;
+  return { name: residentName, status: !currentResidentStatus };
 }

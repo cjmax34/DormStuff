@@ -12,25 +12,20 @@ export default function Scanner() {
 
   const handleQrScan = async ({ data } : { data: string }) => {
     if (data && !isProcessing) {
-      console.log(data);
+      // console.log(data);
       setIsProcessing(true);
       try {
-        await logResident(data);
+        const res = await logResident(data);
+        const residentName = res.name;
+        const newResidentStatus = res.status;
         setTimeout(() => {
           setIsProcessing(false);
-        }, 2000);
+        }, 1000);
         ToastAndroid.showWithGravity(
-          'Successfully logged!',
+          `Successfully logged ${residentName} as ${newResidentStatus === true? "IN": "OUT"}`,
           ToastAndroid.SHORT,
-          ToastAndroid.BOTTOM,
-        );
-        // ToastAndroid.showWithGravityAndOffset(
-        //   'A wild toast appeared!',
-        //   ToastAndroid.LONG,
-        //   ToastAndroid.BOTTOM,
-        //   25,
-        //   50,
-        // );
+          ToastAndroid.CENTER,
+        )
       } catch (error) {
         setIsProcessing(false);
       }
