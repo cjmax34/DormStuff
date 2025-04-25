@@ -1,9 +1,8 @@
+import CustomInput from "@/components/CustomInput";
+import { useGlobalContext } from "@/contexts/GlobalContext";
+import { useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack } from "expo-router";
-import { useState } from "react";
-import { useGlobalContext } from "@/contexts/GlobalContext";
-import CustomInput from "@/components/CustomInput";
 
 const formatTime = (time: string) => {
   const date = new Date(time);
@@ -18,7 +17,7 @@ const formatTime = (time: string) => {
   })}`;
 };
 
-export default function Logbook() {
+export default function Residents() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | "in" | "out">("all");
   const { residents } = useGlobalContext();
@@ -41,9 +40,8 @@ export default function Logbook() {
 
   return (
     <SafeAreaView className="flex-1 px-4">
-      <Stack.Screen options={{ title: "Logbook", headerShown: false }} />
       <View className="my-4">
-        <Text className="text-white text-3xl font-gbold">Logbook</Text>
+        <Text className="text-white text-3xl font-gbold">Residents</Text>
       </View>
       {/* Search input */}
       <CustomInput

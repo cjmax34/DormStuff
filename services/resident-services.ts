@@ -77,7 +77,7 @@ export async function logResident(userId: string) {
     getResidentName(userId),
     getResidentStatus(userId),
   ]);
-  console.log(residentName, currentResidentStatus);
+  // console.log(residentName, currentResidentStatus);
 
   const { error } = await supabase
     .from("residents")

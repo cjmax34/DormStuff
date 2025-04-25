@@ -25,10 +25,10 @@ const actions: Action[] = [
   },
   {
     id: 3,
-    title: "Student Logbook",
-    description: "Check who is currently in and out of the dorm",
+    title: "Residents",
+    description: "Check the list of residents",
     icon: "user",
-    path: "/logbook",
+    path: "/residents",
   },
 ];
 
