@@ -114,12 +114,12 @@ export default function Logbook() {
       </Modal>
 
       {/* Resident List */}
-      {/* TODO: Add component to render when empty */}
       <FlatList
+        contentContainerStyle={{ flex: 1 }}
         data={filteredLogbook}
         renderItem={({ item }) => {
           return (
-            <View className="flex-1 rounded-xl my-2 border border-white p-3 active:bg-gray-700 gap-4">
+            <View className="rounded-xl my-2 border border-white p-3 active:bg-gray-700 gap-4">
               <View className="flex-row justify-between">
                 <View className="justify-center">
                   <Text className="text-white text-xl font-gbold">
@@ -144,6 +144,11 @@ export default function Logbook() {
             </View>
           );
         }}
+        ListEmptyComponent={(
+          <View className="flex-1 justify-center items-center">
+            <Text className="text-white font-gbold">No entries found.</Text>
+          </View>
+        )}
       />
     </SafeAreaView>
   );
