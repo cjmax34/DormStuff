@@ -31,7 +31,7 @@ export default function Residents() {
   ];
 
   const getActiveTabLabel = () => {
-    return tabs.find(tab => tab.value === activeTab)?.label || "All";
+    return tabs.find((tab) => tab.value === activeTab)?.label || "All";
   };
 
   const filteredResidents = residents.filter((resident) => {
@@ -68,10 +68,10 @@ export default function Residents() {
             autoCapitalize="none"
           />
         </View>
-        
+
         {/* Filter dropdown */}
         <View className="w-[30%]">
-          <Pressable 
+          <Pressable
             onPress={() => setDropdownVisible(true)}
             className="bg-neutral-700 border border-gray-300 rounded-lg px-2 py-3 flex-row justify-between items-center"
           >
@@ -88,7 +88,7 @@ export default function Residents() {
         animationType="fade"
         onRequestClose={() => setDropdownVisible(false)}
       >
-        <Pressable 
+        <Pressable
           className="flex-1 bg-black/50 justify-center items-center"
           onPress={() => setDropdownVisible(false)}
         >
@@ -104,7 +104,9 @@ export default function Residents() {
                   setDropdownVisible(false);
                 }}
               >
-                <Text className="text-white font-gsemibold text-center">{tab.label}</Text>
+                <Text className="text-white font-gsemibold text-center">
+                  {tab.label}
+                </Text>
               </Pressable>
             ))}
           </View>
@@ -130,7 +132,9 @@ export default function Residents() {
                 <View className="justify-center items-end">
                   <Text
                     className={`text-xl font-gbold ${
-                      item.status === "in" ? "text-green-500" : "text-yellow-300"
+                      item.status === "in"
+                        ? "text-green-500"
+                        : "text-yellow-300"
                     }`}
                   >
                     {item.status === "in" ? "IN" : "OUT"}
