@@ -1,5 +1,6 @@
 import CustomInput from "@/components/CustomInput";
 import { useGlobalContext } from "@/contexts/GlobalContext";
+import { Stack } from "expo-router";
 import { useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -40,6 +41,7 @@ export default function Residents() {
 
   return (
     <SafeAreaView className="flex-1 px-4">
+      <Stack.Screen options={{ title: "Residents", headerShown: false }} />
       <View className="my-4">
         <Text className="text-white text-3xl font-gbold">Residents</Text>
       </View>
