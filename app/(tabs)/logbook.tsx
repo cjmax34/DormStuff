@@ -2,7 +2,7 @@ import CustomInput from "@/components/CustomInput";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { Stack } from "expo-router";
 import { useState } from "react";
-import { FlatList, Pressable, Text, View } from "react-native";
+import { FlatList, Modal, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const formatTime = (time: string) => {
@@ -21,7 +21,18 @@ const formatTime = (time: string) => {
 export default function Logbook() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | "in" | "out">("all");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const { logbook } = useGlobalContext();
+
+  const tabs = [
+    { value: "all", label: "All" },
+    { value: "in", label: "In" },
+    { value: "out", label: "Out" },
+  ];
+
+  const getActiveTabLabel = () => {
+    return tabs.find(tab => tab.value === activeTab)?.label || "All";
+  };
 
   const filteredLogbook = logbook.filter((resident) => {
     const matchesSearch = resident.name
@@ -45,42 +56,60 @@ export default function Logbook() {
       <View className="justify-center">
         <Text className="text-white text-3xl font-gbold">Logbook</Text>
       </View>
-      {/* Search input */}
-      <CustomInput
-        label=""
-        placeholder="Search by name..."
-        value={searchQuery}
-        onChangeText={(query) => setSearchQuery(query)}
-        autoCapitalize="none"
-      />
-
-      {/* Tabs */}
-      <View className="flex-row mt-4 justify-center">
-        <Pressable
-          onPress={() => setActiveTab("all")}
-          className={`px-4 py-2 rounded-lg mr-2 ${
-            activeTab === "all" ? "bg-blue-500" : "bg-neutral-500"
-          }`}
-        >
-          <Text className="text-white font-gsemibold">All</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setActiveTab("in")}
-          className={`px-4 py-2 rounded-lg mr-2 ${
-            activeTab === "in" ? "bg-blue-500" : "bg-neutral-500"
-          }`}
-        >
-          <Text className="text-white font-gsemibold">In</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setActiveTab("out")}
-          className={`px-4 py-2 rounded-lg mr-2 ${
-            activeTab === "out" ? "bg-blue-500" : "bg-neutral-500"
-          }`}
-        >
-          <Text className="text-white font-gsemibold">Out</Text>
-        </Pressable>
+      {/* Search and Filter Section */}
+      <View className="flex-row items-end mb-2">
+        {/* Search input */}
+        <View className="pr-2 w-[70%]">
+          <CustomInput
+            label=""
+            placeholder="Search by name or room number..."
+            value={searchQuery}
+            onChangeText={(query) => setSearchQuery(query)}
+            autoCapitalize="none"
+          />
+        </View>
+        
+        {/* Filter dropdown */}
+        <View className="w-[30%]">
+          <Pressable 
+            onPress={() => setDropdownVisible(true)}
+            className="bg-neutral-700 border border-gray-300 rounded-lg px-2 py-3 flex-row justify-between items-center"
+          >
+            <Text className="text-white">{getActiveTabLabel()}</Text>
+            <Text className="text-white">▼</Text>
+          </Pressable>
+        </View>
       </View>
+
+      {/* Dropdown Modal */}
+      <Modal
+        visible={dropdownVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setDropdownVisible(false)}
+      >
+        <Pressable 
+          className="flex-1 bg-black/50 justify-center items-center"
+          onPress={() => setDropdownVisible(false)}
+        >
+          <View className="bg-neutral-800 rounded-xl w-40 overflow-hidden">
+            {tabs.map((tab) => (
+              <Pressable
+                key={tab.value}
+                className={`px-4 py-3 border-b border-neutral-700 ${
+                  activeTab === tab.value ? "bg-blue-500" : ""
+                }`}
+                onPress={() => {
+                  setActiveTab(tab.value as "all" | "in" | "out");
+                  setDropdownVisible(false);
+                }}
+              >
+                <Text className="text-white font-gsemibold text-center">{tab.label}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </Pressable>
+      </Modal>
 
       {/* Resident List */}
       {/* TODO: Add component to render when empty */}
