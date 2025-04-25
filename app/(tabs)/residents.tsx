@@ -2,7 +2,7 @@ import CustomInput from "@/components/CustomInput";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { Stack } from "expo-router";
 import { useState } from "react";
-import { FlatList, Pressable, Text, View, Modal } from "react-native";
+import { FlatList, Modal, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const formatTime = (time: string) => {
@@ -59,7 +59,7 @@ export default function Residents() {
       {/* Search and Filter Section */}
       <View className="flex-row items-end mb-2">
         {/* Search input */}
-        <View style={{ width: '70%' }} className="pr-2">
+        <View className="pr-2 w-[70%]">
           <CustomInput
             label=""
             placeholder="Search by name or room number..."
@@ -70,7 +70,7 @@ export default function Residents() {
         </View>
         
         {/* Filter dropdown */}
-        <View style={{ width: '30%' }}>
+        <View className="w-[30%]">
           <Pressable 
             onPress={() => setDropdownVisible(true)}
             className="bg-neutral-700 border border-gray-300 rounded-lg px-2 py-3 flex-row justify-between items-center"
