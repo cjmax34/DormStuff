@@ -1,4 +1,5 @@
 import CustomInput from "@/components/CustomInput";
+import StatusCard from "@/components/ResidentCard";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { Stack } from "expo-router";
 import { useState } from "react";
@@ -118,31 +119,10 @@ export default function Logbook() {
         contentContainerStyle={{ flex: 1 }}
         data={filteredLogbook}
         renderItem={({ item }) => {
-          return (
-            <View className="rounded-xl my-2 border border-white p-3 active:bg-gray-700 gap-4">
-              <View className="flex-row justify-between">
-                <View className="justify-center">
-                  <Text className="text-white text-xl font-gbold">
-                    {item.name}
-                  </Text>
-                </View>
-                <View className="justify-center items-end">
-                  <Text
-                    className={`text-xl font-gbold ${
-                      item.status === "in"
-                        ? "text-green-500"
-                        : "text-yellow-300"
-                    }`}
-                  >
-                    {item.status === "in" ? "IN" : "OUT"}
-                  </Text>
-                  <Text className="text-sm text-gray-400 font-gregular">
-                    {formatTime(item.logged_at)}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          );
+          return <StatusCard item={{
+            ...item,
+            status: item.status as "in" | "out"
+          }} formatTime={formatTime} />
         }}
         ListEmptyComponent={(
           <View className="flex-1 justify-center items-center">
