@@ -9,6 +9,14 @@ export default function Index() {
   const [permission, requestPermission] = useCameraPermissions();
   const isPermissionGranted = Boolean(permission?.granted);
 
+  if (loading) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="white" />
+      </SafeAreaView>
+    );
+  }
+
   if (user) {
     return <Redirect href="/(tabs)" />;
   }

@@ -81,7 +81,7 @@ export default function Home() {
       </View>
       <View className="mt-6">
         <Text className="text-white text-xl font-gbold">Quick Actions</Text>
-        <View className="flex-row mt-4 gap-3">
+        <View className="flex-row flex-wrap mt-4 gap-3">
           {actions.map((action) => (
             <ActionCard
               key={action.id}
