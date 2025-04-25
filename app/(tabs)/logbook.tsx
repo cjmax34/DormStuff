@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const formatTime = (time: string) => {
   const date = new Date(time);
-  return `As of ${date.toLocaleDateString("en-US", {
+  return `${date.toLocaleDateString("en-US", {
     month: "2-digit",
     day: "2-digit",
     year: "2-digit",
@@ -21,22 +21,22 @@ const formatTime = (time: string) => {
 export default function Logbook() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | "in" | "out">("all");
-  const { residents } = useGlobalContext();
+  const { logbook } = useGlobalContext();
 
-  const filteredResidents = residents.filter((resident) => {
-    const matchesSearch =
-      resident.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      resident.room.includes(searchQuery);
-
-    if (activeTab === "all") {
-      return matchesSearch;
-    }
+  const filteredLogbook = logbook.filter((resident) => {
+    const matchesSearch = resident.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
 
     if (activeTab === "in") {
-      return matchesSearch && resident.is_in;
+      return matchesSearch && resident.status === "in";
     }
 
-    return matchesSearch && !resident.is_in;
+    if (activeTab === "out") {
+      return matchesSearch && resident.status === "out";
+    }
+
+    return matchesSearch;
   });
 
   return (
@@ -48,7 +48,7 @@ export default function Logbook() {
       {/* Search input */}
       <CustomInput
         label=""
-        placeholder="Search by name or room number..."
+        placeholder="Search by name..."
         value={searchQuery}
         onChangeText={(query) => setSearchQuery(query)}
         autoCapitalize="none"
@@ -85,7 +85,7 @@ export default function Logbook() {
       {/* Resident List */}
       {/* TODO: Add component to render when empty */}
       <FlatList
-        data={filteredResidents}
+        data={filteredLogbook}
         renderItem={({ item }) => {
           return (
             <View className="flex-1 rounded-xl my-2 border border-white p-3 active:bg-gray-700 gap-4">
@@ -94,20 +94,19 @@ export default function Logbook() {
                   <Text className="text-white text-xl font-gbold">
                     {item.name}
                   </Text>
-                  <Text className="text-gray-400 text-sm font-gregular">
-                    Room Number: {item.room}
-                  </Text>
                 </View>
                 <View className="justify-center items-end">
                   <Text
                     className={`text-xl font-gbold ${
-                      item.is_in ? "text-green-500" : "text-yellow-300"
+                      item.status === "in"
+                        ? "text-green-500"
+                        : "text-yellow-300"
                     }`}
                   >
-                    {item.is_in ? "IN" : "OUT"}
+                    {item.status === "in" ? "IN" : "OUT"}
                   </Text>
                   <Text className="text-sm text-gray-400 font-gregular">
-                    {formatTime(item.last_updated)}
+                    {formatTime(item.logged_at)}
                   </Text>
                 </View>
               </View>

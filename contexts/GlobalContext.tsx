@@ -1,7 +1,7 @@
 import { subscribeToTableChanges } from "@/api/supabase";
 import { supabase } from "@/lib/supabase";
-import { fetchAllResidents, getNumberOfResidentsIn, getNumberOfResidentsOut } from "@/services/resident-services";
-import { GlobalContextType, Resident } from "@/types";
+import { fetchAllResidents, fetchLogbook, getNumberOfResidentsIn, getNumberOfResidentsOut } from "@/services/resident-services";
+import { GlobalContextType, LogbookEntry, Resident } from "@/types";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -16,6 +16,7 @@ export const useGlobalContext = () => {
 
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [residents, setResidents] = useState<Resident[]>([]);
+  const [logbook, setLogbook] = useState<LogbookEntry[]>([]);
   const [statistics, setStatistics] = useState({ residentsIn: 0, residentsOut: 0 });
   const [loading, setLoading] = useState(true);
 
@@ -37,10 +38,11 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
   async function loadResidentsAndStats() {
     try {
-      const [data, inCount, outCount] = await Promise.all([
+      const [data, inCount, outCount, logbook] = await Promise.all([
         fetchAllResidents(),
         getNumberOfResidentsIn(),
-        getNumberOfResidentsOut()
+        getNumberOfResidentsOut(),
+        fetchLogbook(),
       ]);
       
       setResidents(data);
@@ -48,6 +50,7 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
         residentsIn: inCount || 0,
         residentsOut: outCount || 0
       });
+      setLogbook(logbook);
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,7 +59,7 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <GlobalContext.Provider value={{ residents, setResidents, statistics, loading, loadResidents: loadResidentsAndStats }}>
+    <GlobalContext.Provider value={{ residents, logbook, setResidents, statistics, loading, loadResidents: loadResidentsAndStats }}>
       {children}
     </GlobalContext.Provider>
   );
