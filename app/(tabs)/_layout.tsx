@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
+import { FontAwesome6 } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Redirect, Tabs } from "expo-router";
 
@@ -6,7 +7,7 @@ export default function TabLayout() {
   const { user } = useAuth();
 
   if (!user) {
-    return <Redirect href={'/login'} />
+    return <Redirect href={"/login"} />;
   }
 
   return (
@@ -49,7 +50,7 @@ export default function TabLayout() {
         options={{
           title: "Residents",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={26} name="user" color={color} />
+            <FontAwesome6 size={26} name="people-roof" color={color} />
           ),
         }}
       />

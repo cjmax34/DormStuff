@@ -27,7 +27,7 @@ const actions: Action[] = [
     id: 3,
     title: "Residents",
     description: "Check the list of residents",
-    icon: "user",
+    icon: "people-roof",
     path: "/residents",
   },
 ];

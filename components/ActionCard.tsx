@@ -1,6 +1,7 @@
-import { Pressable, Text, View } from "react-native";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Action } from "@/types";
+import { FontAwesome6 } from "@expo/vector-icons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Pressable, Text, View } from "react-native";
 
 interface ActionCardProps {
   action: Action;
@@ -14,11 +15,16 @@ export default function ActionCard({ action, onPress }: ActionCardProps) {
       onPress={onPress}
     >
       <View className="flex-col items-center">
-        <FontAwesome
-          size={40}
-          name={action.icon as "qrcode" | "user"}
-          color="white"
-        />
+        {action.icon === "people-roof" ? (
+          <FontAwesome6 size={40} name={action.icon} color="white" />
+        ) : (
+          <FontAwesome
+            size={40}
+            name={action.icon as "qrcode" | "user"}
+            color="white"
+          />
+        )}
+
         <Text className="text-white text-xl text-center font-gbold mt-2">
           {action.title}
         </Text>
