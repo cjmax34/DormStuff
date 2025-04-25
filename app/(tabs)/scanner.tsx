@@ -1,28 +1,41 @@
+import { logResident } from "@/services/resident-services";
 import { CameraView } from "expo-camera";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useRef } from "react";
-import { AppState, Linking, Platform, StyleSheet } from "react-native";
+import { useState } from "react";
+import { ActivityIndicator, Platform, StyleSheet, ToastAndroid, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Overlay } from "../../components/Overlay";
 
 export default function Scanner() {
-  const qrLock = useRef(false);
-  const appState = useRef(AppState.currentState);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener("change", (nextAppState) => {
-      if (appState.current.match(/inactive|background/) && nextAppState === "active") {
-        qrLock.current = false;
+  const handleQrScan = async ({ data } : { data: string }) => {
+    if (data && !isProcessing) {
+      console.log(data);
+      setIsProcessing(true);
+      try {
+        await logResident(data);
+        setTimeout(() => {
+          setIsProcessing(false);
+        }, 2000);
+        ToastAndroid.showWithGravity(
+          'Successfully logged!',
+          ToastAndroid.SHORT,
+          ToastAndroid.BOTTOM,
+        );
+        // ToastAndroid.showWithGravityAndOffset(
+        //   'A wild toast appeared!',
+        //   ToastAndroid.LONG,
+        //   ToastAndroid.BOTTOM,
+        //   25,
+        //   50,
+        // );
+      } catch (error) {
+        setIsProcessing(false);
       }
-
-      appState.current = nextAppState;
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
+    }
+  }
 
   return (
     <SafeAreaView style={StyleSheet.absoluteFillObject}>
@@ -31,17 +44,14 @@ export default function Scanner() {
       <CameraView 
         style={StyleSheet.absoluteFillObject} 
         facing="back"
-        onBarcodeScanned={({ data }) => {
-          if (data && !qrLock.current) {
-            qrLock.current = true;
-            setTimeout(async() => {
-              await Linking.openURL(data);
-
-            }, 500);
-          }
-      }}
+        onBarcodeScanned={isProcessing ? undefined : handleQrScan}
       />
       <Overlay />
+      {isProcessing && (
+        <View style={StyleSheet.absoluteFillObject} className="justify-center items-center">
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      )}
     </SafeAreaView>
   );
 }
