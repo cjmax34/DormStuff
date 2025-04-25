@@ -23,7 +23,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={26} name="home" color={color} />
+            <FontAwesome size={24} name="home" color={color} />
           ),
         }}
       />
@@ -32,7 +32,7 @@ export default function TabLayout() {
         options={{
           title: "QR Scanner",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={26} name="qrcode" color={color} />
+            <FontAwesome size={24} name="qrcode" color={color} />
           ),
         }}
       />
@@ -50,7 +50,16 @@ export default function TabLayout() {
         options={{
           title: "Residents",
           tabBarIcon: ({ color }) => (
-            <FontAwesome6 size={26} name="people-roof" color={color} />
+            <FontAwesome6 size={24} name="people-roof" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="logbook"
+        options={{
+          title: "Logbook",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={24} name="address-book-o" color={color} />
           ),
         }}
       />

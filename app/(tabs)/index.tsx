@@ -30,6 +30,13 @@ const actions: Action[] = [
     icon: "people-roof",
     path: "/residents",
   },
+  {
+    id: 4,
+    title: "Logbook",
+    description: "View in/out history",
+    icon: "address-book-o",
+    path: "/logbook",
+  },
 ];
 
 export default function Home() {
