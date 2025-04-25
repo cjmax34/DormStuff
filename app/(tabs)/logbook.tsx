@@ -116,7 +116,7 @@ export default function Logbook() {
 
       {/* Resident List */}
       <FlatList
-        contentContainerStyle={{ flex: 1 }}
+        contentContainerStyle={filteredLogbook.length === 0 ? { flex: 1 } : undefined}
         data={filteredLogbook}
         renderItem={({ item }) => {
           return <StatusCard item={{
