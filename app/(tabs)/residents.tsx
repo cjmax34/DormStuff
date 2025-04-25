@@ -116,7 +116,7 @@ export default function Residents() {
 
       {/* Resident List */}
       <FlatList
-        contentContainerStyle={{ flex: 1 }}
+        contentContainerStyle={filteredResidents.length === 0 ? { flex: 1 } : undefined}
         data={filteredResidents}
         renderItem={({ item }) => {
           return <StatusCard item={{
