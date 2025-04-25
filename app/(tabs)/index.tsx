@@ -62,28 +62,34 @@ export default function Home() {
           className="flex-1 h-60 rounded-xl"
         />
       </View>
-      <View className="flex-row mt-6 gap-3">
-        <StatisticsCard
-          count={statistics.residentsIn}
-          label="In"
-          color="text-green-500"
-          loading={statsLoading}
-        />
-        <StatisticsCard
-          count={statistics.residentsOut}
-          label="Out"
-          color="text-yellow-300"
-          loading={statsLoading}
-        />
-      </View>
-      <View className="flex-row mt-6 gap-3">
-        {actions.map((action) => (
-          <ActionCard
-            key={action.id}
-            action={action}
-            onPress={() => router.push(action.path)}
+      <View className="mt-6">
+        <Text className="text-white text-xl font-gbold">Statistics</Text>
+        <View className="flex-row mt-4 gap-3">
+          <StatisticsCard
+            count={statistics.residentsIn}
+            label="In"
+            color="text-green-500"
+            loading={statsLoading}
           />
-        ))}
+          <StatisticsCard
+            count={statistics.residentsOut}
+            label="Out"
+            color="text-yellow-300"
+            loading={statsLoading}
+          />
+        </View>
+      </View>
+      <View className="mt-6">
+        <Text className="text-white text-xl font-gbold">Quick Actions</Text>
+        <View className="flex-row mt-4 gap-3">
+          {actions.map((action) => (
+            <ActionCard
+              key={action.id}
+              action={action}
+              onPress={() => router.push(action.path)}
+            />
+          ))}
+        </View>
       </View>
     </SafeAreaView>
   );
