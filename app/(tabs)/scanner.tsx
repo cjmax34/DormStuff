@@ -21,7 +21,7 @@ export default function Scanner() {
           setIsProcessing(false);
         }, 1000);
         ToastAndroid.showWithGravity(
-          `Successfully logged ${residentName} as ${newResidentStatus === true? "IN": "OUT"}`,
+          `Successfully logged ${residentName} as ${newResidentStatus === "in"? "IN": "OUT"}`,
           ToastAndroid.LONG,
           ToastAndroid.CENTER,
         )

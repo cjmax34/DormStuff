@@ -28,15 +28,15 @@ export default function Residents() {
       resident.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       resident.room.includes(searchQuery);
 
-    if (activeTab === "all") {
-      return matchesSearch;
-    }
-
     if (activeTab === "in") {
-      return matchesSearch && resident.is_in;
+      return matchesSearch && resident.status === "in";
     }
 
-    return matchesSearch && !resident.is_in;
+    if (activeTab === "out") {
+      return matchesSearch && resident.status === "out";
+    }
+
+    return matchesSearch;
   });
 
   return (
@@ -101,10 +101,10 @@ export default function Residents() {
                 <View className="justify-center items-end">
                   <Text
                     className={`text-xl font-gbold ${
-                      item.is_in ? "text-green-500" : "text-yellow-300"
+                      item.status === "in" ? "text-green-500" : "text-yellow-300"
                     }`}
                   >
-                    {item.is_in ? "IN" : "OUT"}
+                    {item.status === "in" ? "IN" : "OUT"}
                   </Text>
                   <Text className="text-sm text-gray-400 font-gregular">
                     {formatTime(item.last_updated)}
