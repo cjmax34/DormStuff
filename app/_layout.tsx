@@ -1,17 +1,17 @@
+import AuthProvider from "@/contexts/AuthContext";
+import GlobalProvider from "@/contexts/GlobalContext";
+import "@/global.css";
+import { useColorScheme } from "@/hooks/useColorScheme";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { useEffect } from "react";
-import * as SplashScreen from "expo-splash-screen";
 import { Stack } from "expo-router";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import "@/global.css";
-import GlobalProvider from "@/contexts/GlobalContext";
-import AuthProvider from "@/contexts/AuthContext";
+import { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
