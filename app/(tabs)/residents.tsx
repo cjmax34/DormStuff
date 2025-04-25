@@ -40,9 +40,9 @@ export default function Residents() {
   });
 
   return (
-    <SafeAreaView className="flex-1 px-4">
+    <SafeAreaView className="flex-1 p-4">
       <Stack.Screen options={{ title: "Residents", headerShown: false }} />
-      <View className="my-4">
+      <View className="justify-center">
         <Text className="text-white text-3xl font-gbold">Residents</Text>
       </View>
       {/* Search input */}
