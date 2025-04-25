@@ -63,7 +63,7 @@ export default function Logbook() {
         <View className="pr-2 w-[70%]">
           <CustomInput
             label=""
-            placeholder="Search by name or room number..."
+            placeholder="Search by name..." // TODO: Implement searching by date
             value={searchQuery}
             onChangeText={(query) => setSearchQuery(query)}
             autoCapitalize="none"
