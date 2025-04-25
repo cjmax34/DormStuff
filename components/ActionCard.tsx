@@ -11,10 +11,10 @@ interface ActionCardProps {
 export default function ActionCard({ action, onPress }: ActionCardProps) {
   return (
     <Pressable
-      className="flex-1 rounded-xl border border-white p-3 active:bg-gray-700"
+      className="rounded-xl border border-white p-3 active:bg-gray-700 w-[48%]"
       onPress={onPress}
     >
-      <View className="flex-col items-center">
+      <View className="flex-col justify-center items-center">
         {action.icon === "people-roof" ? (
           <FontAwesome6 size={40} name={action.icon} color="white" />
         ) : (
@@ -25,10 +25,10 @@ export default function ActionCard({ action, onPress }: ActionCardProps) {
           />
         )}
 
-        <Text className="text-white text-lg text-center font-gbold mt-2">
+        <Text className="text-white text-lg font-gbold mt-2">
           {action.title}
         </Text>
-        <Text className="text-gray-400 text-xs text-center font-gregular mt-1">
+        <Text className="text-gray-400 text-xs font-gregular mt-1">
           {action.description}
         </Text>
       </View>
