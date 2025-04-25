@@ -25,10 +25,10 @@ export default function ActionCard({ action, onPress }: ActionCardProps) {
           />
         )}
 
-        <Text className="text-white text-xl text-center font-gbold mt-2">
+        <Text className="text-white text-lg text-center font-gbold mt-2">
           {action.title}
         </Text>
-        <Text className="text-gray-400 text-sm text-center font-gregular mt-1">
+        <Text className="text-gray-400 text-xs text-center font-gregular mt-1">
           {action.description}
         </Text>
       </View>

@@ -11,14 +11,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const actions: Action[] = [
   {
     id: 1,
-    title: "QR Code Scanner",
+    title: "Scanner",
     description: "Scan QR code to log in/out",
     icon: "qrcode",
     path: "/scanner",
   },
   {
     id: 2,
-    title: "QR Code Viewer",
+    title: "Viewer",
     description: "View your QR code here",
     icon: "qrcode",
     path: "/qrviewer",
@@ -62,7 +62,7 @@ export default function Home() {
           className="flex-1 h-60 rounded-xl"
         />
       </View>
-      <View className="flex-row mt-4 gap-3">
+      <View className="flex-row mt-6 gap-3">
         <StatisticsCard
           count={statistics.residentsIn}
           label="In"
@@ -76,7 +76,7 @@ export default function Home() {
           loading={statsLoading}
         />
       </View>
-      <View className="flex-row mt-4 gap-3">
+      <View className="flex-row mt-6 gap-3">
         {actions.map((action) => (
           <ActionCard
             key={action.id}
