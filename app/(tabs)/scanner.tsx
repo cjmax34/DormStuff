@@ -12,7 +12,6 @@ export default function Scanner() {
 
   const handleQrScan = async ({ data } : { data: string }) => {
     if (data && !isProcessing) {
-      // console.log(data);
       setIsProcessing(true);
       try {
         const res = await logResident(data);
@@ -23,7 +22,7 @@ export default function Scanner() {
         }, 1000);
         ToastAndroid.showWithGravity(
           `Successfully logged ${residentName} as ${newResidentStatus === true? "IN": "OUT"}`,
-          ToastAndroid.SHORT,
+          ToastAndroid.LONG,
           ToastAndroid.CENTER,
         )
       } catch (error) {
