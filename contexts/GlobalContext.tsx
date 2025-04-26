@@ -10,19 +10,19 @@ import {
 import { GlobalContextType, LogbookEntry, Resident } from "@/types";
 import {
   createContext,
-  ReactNode,
+  PropsWithChildren,
   useContext,
   useEffect,
-  useState,
+  useState
 } from "react";
 import Toast from "react-native-toast-message";
 import { useAuth } from "./AuthContext";
 
 // TODO: Rename this context (shouldn't be called global)
 
-export const GlobalContext = createContext<GlobalContextType | null>(null);
+const GlobalContext = createContext<GlobalContextType | null>(null);
 
-const GlobalProvider = ({ children }: { children: ReactNode }) => {
+export function GlobalProvider({ children }: PropsWithChildren){
   const { user } = useAuth();
   const [residents, setResidents] = useState<Resident[]>([]);
   const [logbook, setLogbook] = useState<LogbookEntry[]>([]);
@@ -114,8 +114,6 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
     </GlobalContext.Provider>
   );
 };
-
-export default GlobalProvider;
 
 export const useGlobalContext = () => {
   const context = useContext(GlobalContext);
