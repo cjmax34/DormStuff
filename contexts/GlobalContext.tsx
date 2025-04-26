@@ -22,14 +22,6 @@ import { useAuth } from "./AuthContext";
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
 
-export const useGlobalContext = () => {
-  const context = useContext(GlobalContext);
-  if (!context) {
-    throw new Error("useGlobalContext must be used within a GlobalProvider");
-  }
-  return context;
-};
-
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
   const [residents, setResidents] = useState<Resident[]>([]);
@@ -124,3 +116,11 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export default GlobalProvider;
+
+export const useGlobalContext = () => {
+  const context = useContext(GlobalContext);
+  if (!context) {
+    throw new Error("useGlobalContext must be used within a GlobalProvider");
+  }
+  return context;
+};
