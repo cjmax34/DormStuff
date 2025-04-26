@@ -6,7 +6,14 @@ import { supabase } from "@/lib/supabase";
 import { Action } from "@/types";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Image, Modal, Pressable, Text, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Modal,
+  Pressable,
+  Text,
+  View
+} from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -127,17 +134,11 @@ export default function Home() {
           onPress={() => setDropdownVisible(false)}
         >
           <SafeAreaView className="flex-1 justify-center items-center p-4">
-            <View className="bg-white p-4 items-center">
-              {qrValue ? (
-                <QRCode
-                  value={qrValue}
-                  size={200}
-                  color="black"
-                  backgroundColor="white"
-                />
-              ) : (
-                <ActivityIndicator size="large" color="#FFF" />
-              )}
+            <View className="bg-white p-4 items-center rounded-xl">
+              <QRCode
+                value={qrValue}
+                size={200}
+              />
             </View>
           </SafeAreaView>
         </Pressable>
