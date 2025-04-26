@@ -47,7 +47,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useSession must be used within a SessionProvider");
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
