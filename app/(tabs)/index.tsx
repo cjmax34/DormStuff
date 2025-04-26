@@ -1,7 +1,7 @@
 import ActionCard from "@/components/ActionCard";
 import StatisticsCard from "@/components/StatisticsCard";
 import { useAuth } from "@/contexts/AuthContext";
-import { useGlobalContext } from "@/contexts/GlobalContext";
+import { useResidentContext } from "@/contexts/ResidentContext";
 import { supabase } from "@/lib/supabase";
 import { Action } from "@/types";
 import { Stack, useRouter } from "expo-router";
@@ -53,7 +53,7 @@ export default function Home() {
 
   const [logoutLoading, setLogoutLoading] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const { statistics, loading: statsLoading } = useGlobalContext();
+  const { statistics, loading: statsLoading } = useResidentContext();
   const router = useRouter();
 
   useEffect(() => {

@@ -18,7 +18,7 @@ import {
 import Toast from "react-native-toast-message";
 import { useAuth } from "./AuthContext";
 
-interface GlobalContextType {
+interface ResidentContextType {
   residents: Resident[];
   logbook: LogbookEntry[];
   setResidents: (residents: Resident[]) => void;
@@ -30,11 +30,9 @@ interface GlobalContextType {
   loadResidents: () => Promise<void>;
 }
 
-// TODO: Rename this context (shouldn't be called global)
+const ResidentContext = createContext<ResidentContextType | null>(null);
 
-const GlobalContext = createContext<GlobalContextType | null>(null);
-
-export function GlobalProvider({ children }: PropsWithChildren) {
+export default function ResidentProvider({ children }: PropsWithChildren) {
   const { user } = useAuth();
   const [residents, setResidents] = useState<Resident[]>([]);
   const [logbook, setLogbook] = useState<LogbookEntry[]>([]);
@@ -112,7 +110,7 @@ export function GlobalProvider({ children }: PropsWithChildren) {
   }
 
   return (
-    <GlobalContext.Provider
+    <ResidentContext.Provider
       value={{
         residents,
         logbook,
@@ -123,14 +121,14 @@ export function GlobalProvider({ children }: PropsWithChildren) {
       }}
     >
       {children}
-    </GlobalContext.Provider>
+    </ResidentContext.Provider>
   );
 }
 
-export const useGlobalContext = () => {
-  const context = useContext(GlobalContext);
+export const useResidentContext = () => {
+  const context = useContext(ResidentContext);
   if (!context) {
-    throw new Error("useGlobalContext must be used within a GlobalProvider");
+    throw new Error("useResidentContext must be used within a ResidentProvider");
   }
   return context;
 };

@@ -1,5 +1,5 @@
 import AuthProvider from "@/contexts/AuthContext";
-import GlobalProvider from "@/contexts/GlobalContext";
+import ResidentProvider from "@/contexts/ResidentContext";
 import "@/global.css";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import {
@@ -79,7 +79,7 @@ export default function RootLayout() {
   }
   return (
     <AuthProvider>
-      <GlobalProvider>
+      <ResidentProvider>
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
@@ -91,7 +91,7 @@ export default function RootLayout() {
           <StatusBar style="auto" />
           <Toast config={toastConfig} />
         </ThemeProvider>
-      </GlobalProvider>
+      </ResidentProvider>
     </AuthProvider>
   );
 }

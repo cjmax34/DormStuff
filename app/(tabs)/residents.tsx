@@ -1,6 +1,6 @@
 import CustomInput from "@/components/CustomInput";
 import ResidentCard from "@/components/ResidentCard";
-import { useGlobalContext } from "@/contexts/GlobalContext";
+import { useResidentContext } from "@/contexts/ResidentContext";
 import { Stack } from "expo-router";
 import { useState } from "react";
 import { FlatList, Modal, Pressable, Text, View } from "react-native";
@@ -23,7 +23,7 @@ export default function Residents() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | "in" | "out">("all");
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const { residents } = useGlobalContext();
+  const { residents } = useResidentContext();
 
   const tabs = [
     { value: "all", label: "All" },
