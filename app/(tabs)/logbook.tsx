@@ -52,7 +52,7 @@ export default function Logbook() {
   });
 
   return (
-    <SafeAreaView className="flex-1 p-4">
+    <SafeAreaView className="flex-1 pt-4 px-4">
       <Stack.Screen options={{ title: "Logbook", headerShown: false }} />
       <View className="justify-center">
         <Text className="text-white text-3xl font-gbold">Logbook</Text>
