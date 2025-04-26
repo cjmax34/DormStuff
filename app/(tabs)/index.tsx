@@ -121,6 +121,7 @@ export default function Home() {
         transparent={true}
         animationType="fade"
         onRequestClose={() => setDropdownVisible(false)}
+        hardwareAccelerated={true}
       >
         <Pressable
           className="flex-1 bg-black/70 justify-center items-center"
