@@ -36,8 +36,11 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-app-example
-
 # Android and iOS build files
 android/
 ios/
+
+# Miscellaneous
+.vscode/
+app-example
+
