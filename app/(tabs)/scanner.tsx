@@ -1,4 +1,5 @@
-import { logResident } from "@/services/resident-services";
+import { useAuth } from "@/contexts/AuthContext";
+import { getResidentName, logResident } from "@/services/resident-services";
 import { CameraView } from "expo-camera";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -8,13 +9,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Overlay } from "../../components/Overlay";
 
 export default function Scanner() {
+  // TODO: Only admin/guards should be able to access this page
+  const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleQrScan = async ({ data } : { data: string }) => {
     if (data && !isProcessing) {
       setIsProcessing(true);
       try {
-        const res = await logResident(data);
+        const loggedBy = await getResidentName(user!.id);
+        const res = await logResident(data, loggedBy);
         const residentName = res.name;
         const newResidentStatus = res.status;
         setTimeout(() => {

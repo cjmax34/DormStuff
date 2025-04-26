@@ -44,9 +44,9 @@ export async function getNumberOfResidentsOut() {
 
 export async function fetchLogbook() {
   const { data, error } = await supabase
-   .from("logbook")
-   .select("*")
-   .order("logged_at", { ascending: false });
+    .from("logbook")
+    .select("*")
+    .order("logged_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching logbook:", error);
@@ -89,8 +89,8 @@ export async function getResidentStatus(userId: string) {
 export async function insertToLogbook(userId: string, status: boolean) {
   const residentName = await getResidentName(userId);
   const { error } = await supabase
-   .from("logbook")
-   .insert([{ id: userId, name: residentName, logged_at: new Date() }]);
+    .from("logbook")
+    .insert([{ id: userId, name: residentName, logged_at: new Date() }]);
 
   if (error) {
     console.error("Error inserting into logbook:", error);
@@ -100,7 +100,7 @@ export async function insertToLogbook(userId: string, status: boolean) {
   return;
 }
 
-export async function logResident(userId: string) {
+export async function logResident(userId: string, loggedBy: string) {
   const [residentName, currentResidentStatus] = await Promise.all([
     getResidentName(userId),
     getResidentStatus(userId),
@@ -112,18 +112,22 @@ export async function logResident(userId: string) {
     .from("residents")
     .update({ status: newResidentStatus, last_updated: new Date() })
     .eq("id", userId);
-    
 
   if (error) {
     console.error("Error logging resident:", error);
     throw new Error(error.message);
   }
 
-  const { error: logbookError } = await supabase.rpc("log_resident", { resident_uuid: userId, resident_name: residentName, resident_new_status: newResidentStatus});
+  const { error: logbookError } = await supabase.rpc("log_resident", {
+    resident_uuid: userId,
+    resident_name: residentName,
+    resident_new_status: newResidentStatus,
+    logged_by: loggedBy,
+  });
 
   if (logbookError) {
     console.error("Error logging resident:", logbookError);
-    throw new Error(logbookError.message);  
+    throw new Error(logbookError.message);
   }
 
   return { name: residentName, status: newResidentStatus };
