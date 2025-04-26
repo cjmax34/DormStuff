@@ -78,8 +78,8 @@ export default function RootLayout() {
     return null;
   }
   return (
-    <GlobalProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <GlobalProvider>
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
@@ -91,7 +91,7 @@ export default function RootLayout() {
           <StatusBar style="auto" />
           <Toast config={toastConfig} />
         </ThemeProvider>
-      </AuthProvider>
-    </GlobalProvider>
+      </GlobalProvider>
+    </AuthProvider>
   );
 }
