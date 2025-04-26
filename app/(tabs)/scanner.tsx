@@ -24,7 +24,7 @@ export default function Scanner() {
         const newResidentStatus = res.status;
         setTimeout(() => {
           setIsProcessing(false);
-        }, 1000);
+        }, 2000);
         Toast.show({
           type: "success",
           text1: "SUCCESSFULLY LOGGED",
