@@ -67,7 +67,7 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
               loadResidentsAndStats();
               if (residentName === payload.new.name) {
                 // If the resident's name matches the new logbook entry, show a toast
-                console.log("Show toast");
+                // console.log("Show toast");
                 Toast.show({
                   type: "success",
                   text1: `You are now ${payload.new.status.toUpperCase()}.`,
