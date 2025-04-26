@@ -11,7 +11,7 @@ interface ResidentCardProps {
   formatTime: (time: string) => string;
 }
 
-export default function StatusCard({ item, formatTime }: ResidentCardProps) {
+export default function ResidentCard({ item, formatTime }: ResidentCardProps) {
   const timestamp = item.logged_at || item.last_updated;
   const isLogbook = Boolean(item.logged_at);
 

@@ -1,5 +1,5 @@
 import CustomInput from "@/components/CustomInput";
-import StatusCard from "@/components/ResidentCard";
+import ResidentCard from "@/components/ResidentCard";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { Stack } from "expo-router";
 import { useState } from "react";
@@ -119,7 +119,7 @@ export default function Logbook() {
         contentContainerStyle={filteredLogbook.length === 0 ? { flex: 1 } : undefined}
         data={filteredLogbook}
         renderItem={({ item }) => {
-          return <StatusCard item={{
+          return <ResidentCard item={{
             ...item,
             status: item.status as "in" | "out"
           }} formatTime={formatTime} />
