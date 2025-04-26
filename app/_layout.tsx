@@ -38,7 +38,7 @@ const toastConfig = {
   error: (props: any) => (
     <ErrorToast
       {...props}
-      style={{ borderLeftColor: "green", backgroundColor: "black" }}
+      style={{ borderLeftColor: "red", backgroundColor: "black" }}
       contentContainerStyle={{ paddingHorizontal: 15 }}
       text1Style={{
         fontSize: 16,
