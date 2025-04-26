@@ -77,6 +77,7 @@ export default function Home() {
         <Pressable
           onPress={handleLogout}
           className="px-4 py-2 rounded-lg bg-neutral-700 active:bg-neutral-900 items-center gap-2"
+          disabled={logoutLoading}
         >
           <Text className="text-white font-gmedium">Log out</Text>
         </Pressable>
