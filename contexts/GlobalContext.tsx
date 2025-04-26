@@ -7,22 +7,34 @@ import {
   getNumberOfResidentsOut,
   getResidentName,
 } from "@/services/resident-services";
-import { GlobalContextType, LogbookEntry, Resident } from "@/types";
+import { LogbookEntry, Resident } from "@/types";
 import {
   createContext,
   PropsWithChildren,
   useContext,
   useEffect,
-  useState
+  useState,
 } from "react";
 import Toast from "react-native-toast-message";
 import { useAuth } from "./AuthContext";
+
+interface GlobalContextType {
+  residents: Resident[];
+  logbook: LogbookEntry[];
+  setResidents: (residents: Resident[]) => void;
+  statistics: {
+    residentsIn: number;
+    residentsOut: number;
+  };
+  loading: boolean;
+  loadResidents: () => Promise<void>;
+}
 
 // TODO: Rename this context (shouldn't be called global)
 
 const GlobalContext = createContext<GlobalContextType | null>(null);
 
-export function GlobalProvider({ children }: PropsWithChildren){
+export function GlobalProvider({ children }: PropsWithChildren) {
   const { user } = useAuth();
   const [residents, setResidents] = useState<Resident[]>([]);
   const [logbook, setLogbook] = useState<LogbookEntry[]>([]);
@@ -113,7 +125,7 @@ export function GlobalProvider({ children }: PropsWithChildren){
       {children}
     </GlobalContext.Provider>
   );
-};
+}
 
 export const useGlobalContext = () => {
   const context = useContext(GlobalContext);

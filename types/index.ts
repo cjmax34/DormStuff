@@ -1,17 +1,5 @@
 import { Href } from "expo-router";
 
-export interface GlobalContextType {
-  residents: Resident[];
-  logbook: LogbookEntry[];
-  setResidents: (residents: Resident[]) => void;
-  statistics: {
-    residentsIn: number;
-    residentsOut: number;
-  };
-  loading: boolean;
-  loadResidents: () => Promise<void>;
-}
-
 export interface Action {
   id: number;
   title: string;
