@@ -17,7 +17,7 @@ export interface Action {
   title: string;
   description: string;
   icon: string;
-  path: Href;
+  path?: Href;
 }
 
 //  Resident

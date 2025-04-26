@@ -23,7 +23,6 @@ const actions: Action[] = [
     title: "Viewer",
     description: "View your QR code here",
     icon: "qrcode",
-    path: "/qrviewer",
   },
   {
     id: 3,
@@ -108,7 +107,7 @@ export default function Home() {
               onPress={() =>
                 action.id === 2
                   ? setDropdownVisible(true)
-                  : router.push(action.path)
+                  : router.push(action.path!)
               }
             />
           ))}
