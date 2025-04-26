@@ -12,9 +12,47 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import Toast from "react-native-toast-message";
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
+
+const toastConfig = {
+  success: (props: any) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: "green", backgroundColor: "black" }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 16,
+        fontFamily: "Geist-Bold",
+        color: "white",
+      }}
+      text2Style={{
+        fontSize: 12,
+        fontFamily: "Geist-Regular",
+        color: "white",
+      }}
+    />
+  ),
+
+  error: (props: any) => (
+    <ErrorToast
+      {...props}
+      style={{ borderLeftColor: "green", backgroundColor: "black" }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 16,
+        fontFamily: "Geist-Bold",
+        color: "white",
+      }}
+      text2Style={{
+        fontSize: 12,
+        fontFamily: "Geist-Regular",
+        color: "white",
+      }}
+    />
+  ),
+};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -42,14 +80,16 @@ export default function RootLayout() {
   return (
     <GlobalProvider>
       <AuthProvider>
-        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
           <Stack>
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="index" options={{ headerShown: false }} />
           </Stack>
           <StatusBar style="auto" />
-          <Toast />
+          <Toast config={toastConfig} />
         </ThemeProvider>
       </AuthProvider>
     </GlobalProvider>
