@@ -14,7 +14,7 @@ export default function Scanner() {
   const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleQrScan = async ({ data } : { data: string }) => {
+  const handleQrScan = async ({ data }: { data: string }) => {
     if (data && !isProcessing) {
       setIsProcessing(true);
       try {
@@ -26,28 +26,37 @@ export default function Scanner() {
           setIsProcessing(false);
         }, 1000);
         Toast.show({
-          type: 'success',
-          text1: 'Successfully logged!',
+          type: "success",
+          text1: "SUCCESSFULLY LOGGED",
           text2: `${residentName} is now ${newResidentStatus.toUpperCase()}.`,
         });
       } catch (error) {
+        Toast.show({
+          type: "error",
+          text1: "ERROR LOGGING",
+          text2:
+            "Something went wrong while logging the resident. Please try again.",
+        });
         setIsProcessing(false);
       }
     }
-  }
+  };
 
   return (
     <SafeAreaView style={StyleSheet.absoluteFillObject}>
       <Stack.Screen options={{ title: "QR Scanner", headerShown: false }} />
       {Platform.OS === "android" ? <StatusBar hidden /> : null}
-      <CameraView 
-        style={StyleSheet.absoluteFillObject} 
+      <CameraView
+        style={StyleSheet.absoluteFillObject}
         facing="back"
         onBarcodeScanned={isProcessing ? undefined : handleQrScan}
       />
       <Overlay />
       {isProcessing && (
-        <View style={StyleSheet.absoluteFillObject} className="justify-center items-center">
+        <View
+          style={StyleSheet.absoluteFillObject}
+          className="justify-center items-center"
+        >
           <ActivityIndicator size="large" color="white" />
         </View>
       )}
