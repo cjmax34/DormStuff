@@ -12,13 +12,13 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+import Toast, { ErrorToast, SuccessToast } from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 
 const toastConfig = {
   success: (props: any) => (
-    <BaseToast
+    <SuccessToast
       {...props}
       style={{ borderLeftColor: "green", backgroundColor: "black" }}
       contentContainerStyle={{ paddingHorizontal: 15 }}
