@@ -47,7 +47,6 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
       const residentsChannel = subscribeToTableChanges({
         table: "residents",
         callback: (payload) => {
-          // console.log("Change received in Global Context!", payload);
           loadResidentsAndStats();
         },
       });
@@ -57,17 +56,14 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
         const residentName = await getResidentName(user.id);
 
         if (residentName) {
-          // console.log(residentName);
           const logbookChannel = subscribeToTableChanges({
             table: "logbook",
             event: "INSERT",
             schema: "public",
             callback: (payload) => {
-              // console.log("Change received!", payload);
               loadResidentsAndStats();
               if (residentName === payload.new.name) {
                 // If the resident's name matches the new logbook entry, show a toast
-                // console.log("Show toast");
                 Toast.show({
                   type: "success",
                   text1: `You are now ${payload.new.status.toUpperCase()}.`,
