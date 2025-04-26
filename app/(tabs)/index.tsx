@@ -1,11 +1,13 @@
 import ActionCard from "@/components/ActionCard";
 import StatisticsCard from "@/components/StatisticsCard";
+import { useAuth } from "@/contexts/AuthContext";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { supabase } from "@/lib/supabase";
 import { Action } from "@/types";
 import { Stack, useRouter } from "expo-router";
-import { useState } from "react";
-import { Alert, Image, Pressable, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, Image, Modal, Pressable, Text, View } from "react-native";
+import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const actions: Action[] = [
@@ -40,9 +42,19 @@ const actions: Action[] = [
 ];
 
 export default function Home() {
-  const { statistics, loading: statsLoading } = useGlobalContext();
+  const { user } = useAuth();
+  const [qrValue, setQRValue] = useState("");
+
   const [logoutLoading, setLogoutLoading] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const { statistics, loading: statsLoading } = useGlobalContext();
   const router = useRouter();
+
+  useEffect(() => {
+    if (user?.id) {
+      setQRValue(user.id);
+    }
+  }, [user]);
 
   async function handleLogout() {
     setLogoutLoading(true);
@@ -93,11 +105,43 @@ export default function Home() {
             <ActionCard
               key={action.id}
               action={action}
-              onPress={() => router.push(action.path)}
+              onPress={() =>
+                action.id === 2
+                  ? setDropdownVisible(true)
+                  : router.push(action.path)
+              }
             />
           ))}
         </View>
       </View>
+
+      {/* QR Code Viewer Modal */}
+      <Modal
+        visible={dropdownVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setDropdownVisible(false)}
+      >
+        <Pressable
+          className="flex-1 bg-black/70 justify-center items-center"
+          onPress={() => setDropdownVisible(false)}
+        >
+          <SafeAreaView className="flex-1 justify-center items-center p-4">
+            <View className="bg-white p-4 items-center">
+              {qrValue ? (
+                <QRCode
+                  value={qrValue}
+                  size={200}
+                  color="black"
+                  backgroundColor="white"
+                />
+              ) : (
+                <ActivityIndicator size="large" color="#FFF" />
+              )}
+            </View>
+          </SafeAreaView>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   );
 }
