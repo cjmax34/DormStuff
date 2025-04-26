@@ -6,7 +6,9 @@ interface ResidentCardProps {
     status: "in" | "out";
     room?: string;
     last_updated?: string;
+    last_logged_by?: string;
     logged_at?: string;
+    logged_by?: string;
   };
   formatTime: (time: string) => string;
 }
@@ -25,6 +27,11 @@ export default function ResidentCard({ item, formatTime }: ResidentCardProps) {
           {!isLogbook && item.room && (
             <Text className="text-gray-400 text-sm font-gregular">
               Room Number: {item.room}
+            </Text>
+          )}
+          {isLogbook && (
+            <Text className="text-gray-400 text-sm font-gregular">
+              Logged by: {item.logged_by}
             </Text>
           )}
         </View>
