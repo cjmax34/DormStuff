@@ -4,8 +4,9 @@ import { CameraView } from "expo-camera";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { ActivityIndicator, Platform, StyleSheet, ToastAndroid, View } from "react-native";
+import { ActivityIndicator, Platform, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 import { Overlay } from "../../components/Overlay";
 
 export default function Scanner() {
@@ -24,11 +25,11 @@ export default function Scanner() {
         setTimeout(() => {
           setIsProcessing(false);
         }, 1000);
-        ToastAndroid.showWithGravity(
-          `Successfully logged ${residentName} as ${newResidentStatus === "in"? "IN": "OUT"}`,
-          ToastAndroid.LONG,
-          ToastAndroid.CENTER,
-        )
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully logged!',
+          text2: `${residentName} is now ${newResidentStatus.toUpperCase()}.`,
+        });
       } catch (error) {
         setIsProcessing(false);
       }

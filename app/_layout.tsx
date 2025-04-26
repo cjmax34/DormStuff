@@ -12,6 +12,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import Toast from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -48,6 +49,7 @@ export default function RootLayout() {
             <Stack.Screen name="index" options={{ headerShown: false }} />
           </Stack>
           <StatusBar style="auto" />
+          <Toast />
         </ThemeProvider>
       </AuthProvider>
     </GlobalProvider>
