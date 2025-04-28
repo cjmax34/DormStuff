@@ -1,6 +1,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { getResidentName, logResident } from "@/services/resident-services";
 import { CameraView } from "expo-camera";
+import * as Haptics from "expo-haptics";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
@@ -25,12 +26,14 @@ export default function Scanner() {
         setTimeout(() => {
           setIsProcessing(false);
         }, 2000);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success); // Haptic feedback when successfully logged
         Toast.show({
           type: "success",
           text1: "SUCCESSFULLY LOGGED",
           text2: `${residentName} is now ${newResidentStatus.toUpperCase()}.`,
         });
       } catch (error) {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error); // Haptic feedback when error in logging
         Toast.show({
           type: "error",
           text1: "ERROR LOGGING",
