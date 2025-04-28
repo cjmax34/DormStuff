@@ -2,17 +2,43 @@ import CustomInput from "@/components/CustomInput";
 import { supabase } from "@/lib/supabase";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as v from "valibot";
+
+const loginSchema = v.object({
+  email: v.pipe(v.string(), v.email("Invalid email")),
+  password: v.pipe(v.string(), v.minLength(8, "Invalid password")),
+});
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {}
+  );
   const router = useRouter();
 
   async function handleLogin() {
     setLoading(true);
+
+    const result = v.safeParse(loginSchema, { email, password });
+
+    if (!result.success) {
+      const validationErrors = Object.fromEntries(
+        result.issues.map((issue) => [issue.path?.[0].key, issue.message])
+      );
+      setErrors(validationErrors);
+      setLoading(false);
+      return;
+    }
+    setErrors({});
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -20,9 +46,8 @@ export default function Login() {
 
     if (error) {
       Alert.alert("Login Failed", error.message);
-      setPassword("");
     }
-     
+
     setLoading(false);
   }
 
@@ -47,6 +72,7 @@ export default function Login() {
             onChangeText={(e) => setEmail(e)}
             keyboardType="email-address"
             autoCapitalize="none"
+            error={errors.email}
           />
 
           <CustomInput
@@ -56,6 +82,7 @@ export default function Login() {
             onChangeText={(pass) => setPassword(pass)}
             secureTextEntry={true}
             autoCapitalize="none"
+            error={errors.password}
           />
 
           <View className="gap-6">
