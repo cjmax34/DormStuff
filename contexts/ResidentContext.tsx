@@ -8,6 +8,7 @@ import {
   getResidentName,
 } from "@/services/resident-services";
 import { LogbookEntry, Resident } from "@/types";
+import * as Haptics from "expo-haptics";
 import {
   createContext,
   PropsWithChildren,
@@ -66,6 +67,7 @@ export default function ResidentProvider({ children }: PropsWithChildren) {
               loadResidentsAndStats();
               if (residentName === payload.new.name) {
                 // If the resident's name matches the new logbook entry, show a toast
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success); // Haptic feedback when receiving notification
                 Toast.show({
                   type: "success",
                   text1: `You are now ${payload.new.status.toUpperCase()}.`,
