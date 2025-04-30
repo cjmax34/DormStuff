@@ -4,16 +4,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useResidentContext } from "@/contexts/ResidentContext";
 import { supabase } from "@/lib/supabase";
 import { Action } from "@/types";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  Image,
-  Modal,
-  Pressable,
-  Text,
-  View
-} from "react-native";
+import { Alert, Image, Modal, Pressable, Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -74,12 +68,12 @@ export default function Home() {
       <Stack.Screen options={{ title: "Home", headerShown: false }} />
       <View className="flex-row justify-between items-center">
         <Text className="text-white text-3xl font-gbold">Centennial RH</Text>
-        <Pressable
-          onPress={handleLogout}
-          className="px-4 py-2 rounded-lg bg-neutral-700 active:bg-neutral-900 items-center gap-2"
-          disabled={logoutLoading}
-        >
-          <Text className="text-white font-gmedium">Log out</Text>
+        <Pressable onPress={handleLogout} disabled={logoutLoading}>
+          <MaterialIcons
+            name="logout"
+            size={26}
+            color={logoutLoading ? "gray" : "white"}
+          />
         </Pressable>
       </View>
       <View className="flex-row justify-center items-center mt-6">
@@ -136,10 +130,7 @@ export default function Home() {
         >
           <SafeAreaView className="flex-1 justify-center items-center p-4">
             <View className="bg-white p-4 items-center rounded-xl">
-              <QRCode
-                value={qrValue}
-                size={200}
-              />
+              <QRCode value={qrValue} size={200} />
             </View>
           </SafeAreaView>
         </Pressable>
