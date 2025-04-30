@@ -4,10 +4,14 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Redirect, Tabs } from "expo-router";
 
 export default function TabLayout() {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   if (!user) {
     return <Redirect href={"/login"} />;
+  }
+
+  if (!isAdmin) {
+    return <Redirect href={"./(user)"} />;
   }
 
   return (
@@ -22,6 +26,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <FontAwesome size={24} name="home" color={color} />
           ),
@@ -31,6 +36,7 @@ export default function TabLayout() {
         name="scanner"
         options={{
           title: "QR Scanner",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <FontAwesome size={24} name="qrcode" color={color} />
           ),
@@ -40,6 +46,7 @@ export default function TabLayout() {
         name="residents"
         options={{
           title: "Residents",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <FontAwesome6 size={24} name="people-roof" color={color} />
           ),
@@ -49,6 +56,7 @@ export default function TabLayout() {
         name="logbook"
         options={{
           title: "Logbook",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <FontAwesome size={24} name="address-book-o" color={color} />
           ),

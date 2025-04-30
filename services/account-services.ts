@@ -24,3 +24,18 @@ export async function createResidentProfile(
     throw new Error(error.message);
   }
 }
+
+export async function getUserRole(userId: string) {
+  const { data, error } = await supabase
+    .from("residents")
+    .select("role")
+    .eq("id", userId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching user role:", error);
+    return null;
+  }
+
+  return data.role;
+}

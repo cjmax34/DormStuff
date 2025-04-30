@@ -5,7 +5,7 @@ import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
   const [permission, requestPermission] = useCameraPermissions();
   const isPermissionGranted = Boolean(permission?.granted);
 
@@ -15,10 +15,6 @@ export default function Index() {
         <ActivityIndicator size="large" color="white" />
       </SafeAreaView>
     );
-  }
-
-  if (user) {
-    return <Redirect href="/(tabs)" />;
   }
 
   if (!isPermissionGranted) {
@@ -31,6 +27,14 @@ export default function Index() {
         <ActivityIndicator size="large" color="white" />
       </SafeAreaView>
     );
+  }
+  
+  if (isAdmin) {
+    return <Redirect href="./(admin)" />;
+  }
+
+  if (!isAdmin) {
+    return <Redirect href="./(user)" />;
   }
 
   return <Redirect href="/(auth)/login" />;

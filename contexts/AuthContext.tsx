@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { getUserRole } from "@/services/account-services";
 import { User } from "@supabase/supabase-js";
 import {
   createContext,
@@ -19,17 +20,34 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
+    // TODO: Fix race conditions
     setLoading(true);
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      const currentUser = session?.user || null;
+      setUser(currentUser);
+
+      // Get user role
+      if (currentUser) {
+        const userRole = await getUserRole(currentUser.id);
+        setRole(userRole);
+      }
+
       setLoading(false);
-      setUser(session?.user ?? null);
     });
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null);
+      async (_event, session) => {
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+
+        // Get user role
+        if (currentUser) {
+          const userRole = await getUserRole(currentUser.id);
+          setRole(userRole);
+        }
       }
     );
 
@@ -39,7 +57,9 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAdmin: user?.role === "admin" }}>
+    <AuthContext.Provider
+      value={{ user, loading, isAdmin: role === "admin" }}
+    >
       {children}
     </AuthContext.Provider>
   );
