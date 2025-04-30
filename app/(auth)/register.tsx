@@ -79,7 +79,7 @@ export default function Register() {
 
     try {
       await createResidentProfile(user.id, name, email, roomNum);
-      Alert.alert("Sign-up successful!");
+      Alert.alert("Sign-up successful!"); // TODO: Replace with toast
     } catch (error) {
       let errorMessage = "An unknown error occurred.";
       if (error instanceof Error) {
