@@ -38,15 +38,15 @@ export default function Login() {
       setLoading(false);
       return;
     }
-    setErrors({});
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-
+    
     if (error) {
       Alert.alert("Login Failed", error.message);
     }
+    setErrors({});
 
     setLoading(false);
   }
