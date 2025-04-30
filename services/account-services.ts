@@ -13,6 +13,7 @@ export async function createResidentProfile(
       email: email,
       room: roomNum,
       status: "in", // Default value
+      role: "resident", // Default value
       last_updated: new Date(),
       created_at: new Date(),
     },
